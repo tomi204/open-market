@@ -1,0 +1,17 @@
+{
+    "Index": {
+      "title": "Hello world!"
+    },
+    "Navbar": {
+      "dashboard": "Dashboard",
+      "tasks": "Tasks",
+      "sleep": "Sleep",
+      "settings": "Settings",
+      "sports": "Sports"
+    },
+    "ModeToggle": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    }
+  }
