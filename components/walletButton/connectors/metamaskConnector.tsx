@@ -1,15 +1,10 @@
 "use client";
 import { useState } from "react";
-import RLogin, { RLoginButton } from "@rsksmart/rlogin";
-import { ethers } from "ethers";
 import { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
-import { Button } from "../ui/button";
-import { ConnectWalletModal } from "./Modal";
-import { MetamaskConnector } from "./connectors/metamaskConnector";
-import { WalletConnectConnector } from "./connectors/walletConnectConnector";
-export const WalletButton = () => {
+
+export function MetamaskConnector() {
   const [web3Modal, setWeb3Modal] = useState<Web3Modal | null>(null);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const connectMetamask = async () => {
@@ -76,26 +71,5 @@ export const WalletButton = () => {
     }
   };
 
-  return (
-    <section>
-      {/* <button onClick={connectMetamask}>Conectar con Metamask</button> */}
-      <Button
-        onClick={() => {
-          setShowConnectModal(true);
-        }}
-        className="font-bold p-4 px-4"
-      >
-        Connect Wallet
-      </Button>
-      {showConnectModal && (
-        <ConnectWalletModal
-          open={showConnectModal}
-          onClose={() => setShowConnectModal(false)}
-          metamaskConnect={connectMetamask}
-          walletConnectConnect={WalletConnectConnector}
-          defiantConnect={() => {}}
-        />
-      )}
-    </section>
-  );
-};
+  return connectMetamask;
+}
