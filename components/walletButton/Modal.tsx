@@ -2,6 +2,7 @@
 
 import { useUser } from "@/context/User";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 interface ConnectWalletModalProps {
   open: boolean;
@@ -65,7 +66,13 @@ export const ConnectWalletModal = ({
                   X
                 </button>
               </div>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 items-center justify-center mt-4">
+                <Image
+                  src="/images/metamask.svg"
+                  width={50}
+                  height={50}
+                  alt="metamask logo"
+                />
                 <p className="text-black">Connected with Metamask</p>
                 <p className="text-black">
                   {address.substring(0, 6)}...
