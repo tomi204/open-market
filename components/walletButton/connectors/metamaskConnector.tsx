@@ -63,7 +63,7 @@ export function MetamaskConnector() {
         });
         await provider.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x1F" }], // Cambiar a la cadena de red Ethereum mainnet (hexadecimal)
+          params: [{ chainId: "0x1F" }],
         });
       }
     } catch (error) {
