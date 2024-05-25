@@ -33,19 +33,27 @@ contract NFT is ERC721, Ownable, ReentrancyGuard {
 
     ////@dev mint functions
 
-    function mintNative(address _to) external payable nonReentrant {
-        require(sold <= totalSupply, "There are not so many nfts");
+    function mintNative(
+        address _to,
+        uint256 quantity
+    ) external payable nonReentrant {
+        require(
+            sold + quantity <= totalSupply,
+            "There are not so many NFTs available"
+        );
 
-        require(msg.value == price, "Incorrect price"); // check if the value sent is equal to the price of the NFT
+        require(msg.value == price * quantity, "Incorrect price"); // check if the value sent is equal to the price of the NFTs
 
-        bool transferSuccessful = payable(owner()).send(price); // transfer the native token to the owner
+        bool transferSuccessful = payable(owner()).send(price * quantity); // transfer the total native token to the owner
 
-        require(transferSuccessful, "transfer failed"); // check if the transfer was successful or not and revert if it failed
+        require(transferSuccessful, "Transfer failed"); // check if the transfer was successful or not and revert if it failed
 
-        uint256 tokenId = _nextTokenId++;
-        _safeMint(_to, tokenId);
-        emit NftMinted(msg.sender, tokenId);
-        sold++;
+        for (uint256 i = 0; i < quantity; i++) {
+            uint256 tokenId = _nextTokenId++;
+            _safeMint(_to, tokenId);
+            emit NftMinted(msg.sender, tokenId);
+            sold++;
+        }
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
