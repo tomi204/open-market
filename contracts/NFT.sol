@@ -33,7 +33,7 @@ contract NFT is ERC721, Ownable, ReentrancyGuard {
 
     ////@dev mint functions
 
-    function mintNative(address _to) external nonReentrant {
+    function mintNative(address _to) external payable nonReentrant {
         require(sold <= totalSupply, "There are not so many nfts");
 
         require(msg.value == price, "Incorrect price"); // check if the value sent is equal to the price of the NFT
@@ -46,5 +46,9 @@ contract NFT is ERC721, Ownable, ReentrancyGuard {
         _safeMint(_to, tokenId);
         emit NftMinted(msg.sender, tokenId);
         sold++;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
     }
 }
