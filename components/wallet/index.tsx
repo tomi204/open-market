@@ -83,15 +83,27 @@ export const WalletButton = () => {
 
   return (
     <section>
-      {/* <button onClick={connectMetamask}>Conectar con Metamask</button> */}
-      <Button
-        onClick={() => {
-          setShowConnectModal(true);
-        }}
-        className="font-bold p-4 px-4"
-      >
-        Connect Wallet
-      </Button>
+      {!address ? (
+        <Button
+          onClick={() => {
+            setShowConnectModal(true);
+          }}
+          className="font-bold p-4 px-4"
+        >
+          Connect Wallet
+        </Button>
+      ) : (
+        <Button
+          onClick={() => {
+            setShowConnectModal(true);
+          }}
+        >
+          <p className="font-bold">Connected with:</p>
+          <p className="font-bold ml-2">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </p>
+        </Button>
+      )}
       {showConnectModal && (
         <ConnectWalletModal
           open={showConnectModal}
