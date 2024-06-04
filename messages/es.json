@@ -1,0 +1,17 @@
+{
+    "Index": {
+      "title": "Bienvenido "
+    },
+    "Navbar": {
+      "dashboard": "Ofertas",
+      "tasks": "Tareas",
+      "sleep": "Reposo",
+      "settings": "Configuración",
+      "sports": "Deportes"
+    },
+    "ModeToggle": {
+      "system": "Sistema",
+      "light": "Claro",
+      "dark": "Oscuro"
+    }
+  }

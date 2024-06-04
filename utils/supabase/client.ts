@@ -1,8 +1,7 @@
 import { createBrowserClient } from "@supabase/ssr";
-//supabase.com/docs/guides/auth/server-side/nextjs
-export function createClient() {
-	return createBrowserClient(
+
+export const createClient = () =>
+	createBrowserClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	);
-}

@@ -31,7 +31,7 @@ export function MainNav({
               <circle cx="12" cy="4" r="2" />
             </svg>
 
-              Proactive
+              OPEN MARKET
         </div>
       <Link
         href="/examples/dashboard"
