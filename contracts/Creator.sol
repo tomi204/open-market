@@ -9,7 +9,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {NFT} from "./NFT.sol";
 
 contract Creator is Initializable, OwnableUpgradeable, UUPSUpgradeable {
-    event crowCreated(address indexed crow, string projectId);
+    event crowCreated(address indexed crow, string userId);
 
     function initialize() public initializer {
         __Ownable_init(msg.sender);
