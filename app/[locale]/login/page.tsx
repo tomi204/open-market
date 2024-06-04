@@ -1,13 +1,27 @@
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-
+import { login, signup } from "./actions";
 import { UserAuthForm } from "./components/user-auth-form"
 
 export const metadata: Metadata = {
   title: "Authentication",
   description: "Authentication forms built using the components.",
 }
+
+
+// export default function LoginPage() {
+// 	return (
+		// <form>
+		// 	<label htmlFor="email">Email:</label>
+		// 	<input id="email" name="email" type="email" required />
+		// 	<label htmlFor="password">Password:</label>
+		// 	<input id="password" name="password" type="password" required />
+		// 	<button formAction={login}>Log in</button>
+		// 	<button formAction={signup}>Sign up</button>
+		// </form>
+// 	);
+// }
 
 export default function AuthenticationPage() {
   return (
@@ -37,14 +51,14 @@ export default function AuthenticationPage() {
             <circle cx="12" cy="4" r="2" />
           </svg>
 
-            Proactive
+            OPEN MARKET
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;This website helps me with my productivity issues.&rdquo;
+                &ldquo;Sell your things in crypto, with trust and security&rdquo;
               </p>
-              <footer className="text-sm">Adam AIT HAMID</footer>
+              <footer className="text-sm">SMART BLOCKS</footer>
             </blockquote>
           </div>
         </div>
@@ -54,10 +68,9 @@ export default function AuthenticationPage() {
               <h1 className="text-2xl font-semibold tracking-tight">
                 Sign in to your account
               </h1>
-              <p className="text-sm text-muted-foreground">
-                
-              </p>
+              
             </div>
+            
             <UserAuthForm />
           </div>
         </div>
@@ -65,3 +78,5 @@ export default function AuthenticationPage() {
     </>
   )
 }
+
+
