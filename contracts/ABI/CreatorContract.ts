@@ -1,4 +1,4 @@
-export const ContractCreatorABI = [
+export const CreatorContractABI = [
   {
     inputs: [
       {

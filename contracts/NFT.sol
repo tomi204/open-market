@@ -15,7 +15,7 @@ contract NFT is ERC721, Ownable, ReentrancyGuard {
     uint256 private _nextTokenId;
 
     ////@dev events
-    event NftMinted(address requester, uint256 tokenId);
+    event NftMinted(address requester, uint256 quantity);
 
     ////@dev constructor
     constructor(
@@ -51,9 +51,9 @@ contract NFT is ERC721, Ownable, ReentrancyGuard {
         for (uint256 i = 0; i < quantity; i++) {
             uint256 tokenId = _nextTokenId++;
             _safeMint(_to, tokenId);
-            emit NftMinted(msg.sender, tokenId);
             sold++;
         }
+        emit NftMinted(msg.sender, quantity);
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
