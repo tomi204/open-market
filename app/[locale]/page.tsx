@@ -10,8 +10,8 @@ export default function Home() {
     <>
       <NavBarFinal />
       <div>
-        <Link href="/fr" locale="fr">
-          Français
+        <Link href="/es" locale="es">
+          Español
         </Link>
         {" | "}
         <Link href="/en" locale="en">
