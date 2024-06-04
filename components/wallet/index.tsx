@@ -5,10 +5,16 @@ import { ethers } from "ethers";
 import { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
-
+import { Button } from "../ui/button";
+import { ConnectWalletModal } from "./Modal";
+import { MetamaskConnector } from "./connectors/metamaskConnector";
+import { WalletConnectConnector } from "./connectors/walletConnectConnector";
+import { useUser } from "@/context/User";
 export const WalletButton = () => {
   const [web3Modal, setWeb3Modal] = useState<Web3Modal | null>(null);
+  const [showConnectModal, setShowConnectModal] = useState(false);
 
+  const { address, setAddress } = useUser();
   const connectMetamask = async () => {
     if (!web3Modal) {
       const providerOptions: IProviderOptions = {
@@ -38,13 +44,15 @@ export const WalletButton = () => {
       if (web3Modal) {
         const provider = await web3Modal.connect();
         console.log("Conectado a Metamask:", provider);
+
         // Ahora puedes utilizar el proveedor conectado para interactuar con la blockchain
 
         // get address from provider
         const accounts = await provider.request({
           method: "eth_requestAccounts",
         });
-        console.log("Dirección de la cuenta:", accounts[0]);
+
+        setAddress(accounts[0]);
 
         // Solicitar un cambio de cadena programáticamente
         await provider.request({
@@ -75,7 +83,36 @@ export const WalletButton = () => {
 
   return (
     <section>
-      <button onClick={connectMetamask}>Conectar con Metamask</button>
+      {!address ? (
+        <Button
+          onClick={() => {
+            setShowConnectModal(true);
+          }}
+          className="font-bold p-4 px-4"
+        >
+          Connect Wallet
+        </Button>
+      ) : (
+        <Button
+          onClick={() => {
+            setShowConnectModal(true);
+          }}
+        >
+          <p className="font-bold">Connected with:</p>
+          <p className="font-bold ml-2">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </p>
+        </Button>
+      )}
+      {showConnectModal && (
+        <ConnectWalletModal
+          open={showConnectModal}
+          onClose={() => setShowConnectModal(false)}
+          metamaskConnect={connectMetamask}
+          walletConnectConnect={WalletConnectConnector}
+          defiantConnect={() => {}}
+        />
+      )}
     </section>
   );
 };
