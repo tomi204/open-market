@@ -43,7 +43,7 @@ export function MainNav({
         href="/examples/dashboard"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        {t('create')}
+        {t('tasks')}
       </Link>
       <Link
         href="/examples/dashboard"
