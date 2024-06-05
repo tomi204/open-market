@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { ethers } from "ethers";
 import { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
@@ -10,13 +9,13 @@ import { MetamaskConnector } from "./connectors/metamaskConnector";
 import { WalletConnectConnector } from "./connectors/walletConnectConnector";
 import { useUser } from "@/context/User";
 export const WalletButton = () => {
-  const [web3Modal, setWeb3Modal] = (useState < Web3Modal) | (null > null);
+  const [web3Modal, setWeb3Modal] = useState<Web3Modal | null>(null);
   const [showConnectModal, setShowConnectModal] = useState(false);
 
   const { address, setAddress } = useUser();
   const connectMetamask = async () => {
     if (!web3Modal) {
-      const providerOptions = {
+      const providerOptions: IProviderOptions = {
         walletconnect: {
           package: WalletConnectProvider,
           options: {
@@ -33,7 +32,6 @@ export const WalletButton = () => {
         network: "testnet",
         cacheProvider: true,
         providerOptions,
-        supportedChains,
       });
 
       setWeb3Modal(modal);
