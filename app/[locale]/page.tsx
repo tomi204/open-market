@@ -1,5 +1,5 @@
 import { NavBarFinal } from "@/components/NavBar";
-import { WalletButton } from "@/components/wallet";
+import { WalletButton } from "@/components/wallet/index";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/router";
