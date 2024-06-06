@@ -4,7 +4,7 @@
     },
     "Navbar": {
       "dashboard": "Dashboard",
-      "tasks": "Tasks",
+      "create": "Create",
       "sleep": "Sleep",
       "settings": "Settings",
       "sports": "Sports"

@@ -2,38 +2,35 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-	DropdownMenu,
 	DropdownMenuTrigger,
-	DropdownMenuContent,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuItem,
+	DropdownMenuContent,
+	DropdownMenu,
 } from "@/components/ui/dropdown-menu";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
-	Select,
-	SelectTrigger,
 	SelectValue,
-	SelectContent,
+	SelectTrigger,
 	SelectItem,
+	SelectContent,
+	Select,
 } from "@/components/ui/select";
 
-export default function Component() {
+export default function createAsset() {
 	return (
 		<div className="grid min-h-screen w-full overflow-hidden lg:grid-cols-[280px_1fr]">
 			<div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
 				<div className="flex h-full max-h-screen flex-col gap-2">
 					<div className="flex h-[60px] items-center border-b px-6">
-						<Link
-							href="#"
-							className="flex items-center gap-2 font-semibold"
-							prefetch={false}>
+						<Link className="flex items-center gap-2 font-semibold" href="#">
 							<Package2Icon className="h-6 w-6" />
-							<span className="">Acme Marketplace</span>
+							<span className="">Open Market</span>
 						</Link>
-						<Button variant="outline" size="icon" className="ml-auto h-8 w-8">
+						<Button className="ml-auto h-8 w-8" size="icon" variant="outline">
 							<BellIcon className="h-4 w-4" />
 							<span className="sr-only">Toggle notifications</span>
 						</Button>
@@ -41,37 +38,32 @@ export default function Component() {
 					<div className="flex-1 overflow-auto py-2">
 						<nav className="grid items-start px-4 text-sm font-medium">
 							<Link
-								href="#"
 								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-								prefetch={false}>
+								href="#">
 								<HomeIcon className="h-4 w-4" />
 								Dashboard
 							</Link>
 							<Link
-								href="#"
 								className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50"
-								prefetch={false}>
+								href="#">
 								<PackageIcon className="h-4 w-4" />
 								Products
 							</Link>
 							<Link
-								href="#"
 								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-								prefetch={false}>
+								href="#">
 								<WalletIcon className="h-4 w-4" />
 								Marketplace
 							</Link>
 							<Link
-								href="#"
 								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-								prefetch={false}>
+								href="#">
 								<UsersIcon className="h-4 w-4" />
 								Customers
 							</Link>
 							<Link
-								href="#"
 								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-								prefetch={false}>
+								href="#">
 								<LineChartIcon className="h-4 w-4" />
 								Analytics
 							</Link>
@@ -81,7 +73,7 @@ export default function Component() {
 			</div>
 			<div className="flex flex-col">
 				<header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
-					<Link href="#" className="lg:hidden" prefetch={false}>
+					<Link className="lg:hidden" href="#">
 						<Package2Icon className="h-6 w-6" />
 						<span className="sr-only">Home</span>
 					</Link>
@@ -90,9 +82,9 @@ export default function Component() {
 							<div className="relative">
 								<SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
 								<Input
-									type="search"
-									placeholder="Search products..."
 									className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
+									placeholder="Search products..."
+									type="search"
 								/>
 							</div>
 						</form>
@@ -100,15 +92,19 @@ export default function Component() {
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
-								variant="ghost"
+								className="rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800"
 								size="icon"
-								className="rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800">
+								variant="ghost">
 								<img
-									src="/placeholder.svg"
-									width="32"
-									height="32"
-									className="rounded-full"
 									alt="Avatar"
+									className="rounded-full"
+									height="32"
+									src="/placeholder.svg"
+									style={{
+										aspectRatio: "32/32",
+										objectFit: "cover",
+									}}
+									width="32"
 								/>
 								<span className="sr-only">Toggle user menu</span>
 							</Button>
@@ -152,18 +148,16 @@ export default function Component() {
 								</div>
 								<div className="grid gap-2">
 									<Label htmlFor="product-category">Category</Label>
-									<Select id="product-category" defaultValue="electronics">
+									<Select defaultValue="electronics" id="product-category">
 										<SelectTrigger>
 											<SelectValue placeholder="Select category" />
 										</SelectTrigger>
 										<SelectContent>
 											<SelectItem value="electronics">Electronics</SelectItem>
 											<SelectItem value="apparel">Apparel</SelectItem>
-											<SelectItem value="home">Home &amp; Garden</SelectItem>
-											<SelectItem value="sports">
-												Sports &amp; Outdoors
-											</SelectItem>
-											<SelectItem value="toys">Toys &amp; Games</SelectItem>
+											<SelectItem value="home">Home & Garden</SelectItem>
+											<SelectItem value="sports">Sports & Outdoors</SelectItem>
+											<SelectItem value="toys">Toys & Games</SelectItem>
 										</SelectContent>
 									</Select>
 								</div>
@@ -171,40 +165,40 @@ export default function Component() {
 									<Label htmlFor="product-price">Price</Label>
 									<Input
 										id="product-price"
-										type="number"
 										placeholder="Enter product price"
+										type="number"
 									/>
 								</div>
 								<div className="grid gap-2">
 									<Label>Product Images</Label>
 									<div className="grid grid-cols-3 gap-2">
 										<Button
-											variant="outline"
+											className="aspect-square"
 											size="sm"
-											className="aspect-square">
+											variant="outline">
 											<PlusIcon className="h-4 w-4" />
 											<span className="sr-only">Add image</span>
 										</Button>
 										<img
-											src="/placeholder.svg"
 											alt="Product image"
-											width={100}
-											height={100}
 											className="aspect-square object-cover rounded-md"
+											height={100}
+											src="/placeholder.svg"
+											width={100}
 										/>
 										<img
-											src="/placeholder.svg"
 											alt="Product image"
-											width={100}
-											height={100}
 											className="aspect-square object-cover rounded-md"
+											height={100}
+											src="/placeholder.svg"
+											width={100}
 										/>
 										<img
-											src="/placeholder.svg"
 											alt="Product image"
-											width={100}
-											height={100}
 											className="aspect-square object-cover rounded-md"
+											height={100}
+											src="/placeholder.svg"
+											width={100}
 										/>
 									</div>
 								</div>
@@ -217,7 +211,7 @@ export default function Component() {
 							<CardContent className="grid gap-4">
 								<div className="grid gap-2">
 									<Label htmlFor="token-type">Token Type</Label>
-									<Select id="token-type" defaultValue="erc721">
+									<Select defaultValue="erc721" id="token-type">
 										<SelectTrigger>
 											<SelectValue placeholder="Select token type" />
 										</SelectTrigger>
@@ -231,8 +225,8 @@ export default function Component() {
 									<Label htmlFor="token-quantity">Quantity</Label>
 									<Input
 										id="token-quantity"
-										type="number"
 										placeholder="Enter token quantity"
+										type="number"
 									/>
 								</div>
 							</CardContent>
@@ -246,13 +240,13 @@ export default function Component() {
 									<Label htmlFor="stock-quantity">Stock Quantity</Label>
 									<Input
 										id="stock-quantity"
-										type="number"
 										placeholder="Enter stock quantity"
+										type="number"
 									/>
 								</div>
 								<div className="grid gap-2">
 									<Label htmlFor="shipping-options">Shipping Options</Label>
-									<Select id="shipping-options" defaultValue="standard">
+									<Select defaultValue="standard" id="shipping-options">
 										<SelectTrigger>
 											<SelectValue placeholder="Select shipping option" />
 										</SelectTrigger>
@@ -275,7 +269,7 @@ export default function Component() {
 						</Card>
 					</div>
 					<div className="flex justify-end gap-2">
-						<Button variant="outline" size="sm">
+						<Button size="sm" variant="outline">
 							Cancel
 						</Button>
 						<Button size="sm">Save Product</Button>
