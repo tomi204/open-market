@@ -25,6 +25,7 @@ import { useState , useEffect} from "react";
 import axios from "axios";
 import { supabase } from "@/utils/supabase/client";
 import { NavBarFinal } from "@/components/NavBar";
+import {listenToCrowCreatedEvent} from "@/components/blockchainFunctions/Events"
 
 export default function createAsset() {
 	const [productName, setProductName] = useState("");
@@ -38,6 +39,13 @@ export default function createAsset() {
 	const [returnPolicy, setReturnPolicy] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
 	const [previewImages, setPreviewImages] = useState([]);
+
+
+const handleSelect  = (event) => {
+	const file = event.target.files[0];
+	setProductCategory(event.target.value); // You can replace this with your own logic, e.g., uploading the file to a server
+};
+
 
   const handleFileChange = (event) => {
 		setSelectedFiles(Array.from(event.target.files));
@@ -66,6 +74,7 @@ export default function createAsset() {
 		}
 	};
 
+		
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -76,7 +85,7 @@ export default function createAsset() {
 			productPrice,
 			tokenType,
 			tokenQuantity,
-			shippingOptions,
+			shippingOption,
 			returnPolicy,
 		};
 
@@ -84,12 +93,12 @@ export default function createAsset() {
 		console.log({ productData });
 		
 
-		try {
-			const response = await axios.post("/api/products", productData);
-			console.log(response.data);
-		} catch (error) {
-			console.error(error);
-		}
+		// try {
+		// 	const response = await axios.post("/api/products", productData);
+		// 	console.log(response.data);
+		// } catch (error) {
+		// 	console.error(error);
+		// }
 	};
 
 	return (
@@ -190,12 +199,12 @@ export default function createAsset() {
 				<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
 					<form onSubmit={handleSubmit}>
 						<div className="flex items-center">
-							<h1 className="font-semibold text-lg md:text-2xl">
+							<h1 className="font-semibold text-lg md:text-3xl">
 								Create Product
 							</h1>
-							<Button className="ml-auto" size="sm">
+							{/* <Button className="ml-auto" size="sm">
 								List on Marketplace
-							</Button>
+							</Button> */}
 						</div>
 						<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 							<Card>
@@ -226,21 +235,19 @@ export default function createAsset() {
 									<div className="grid gap-2">
 										<Label htmlFor="product-category">Category</Label>
 										<Select
-											defaultValue="electronics"
+											defaultValue="Cars"
 											id="product-category"
-											value={productCategory}
-											onChange={(e) => setProductCategory(e.target.value)}>
+											onChange={handleSelect}
+											value={productCategory}>
 											<SelectTrigger>
 												<SelectValue placeholder="Select category" />
 											</SelectTrigger>
 											<SelectContent>
 												<SelectItem value="electronics">Electronics</SelectItem>
-												<SelectItem value="apparel">Apparel</SelectItem>
-												<SelectItem value="home">Home & Garden</SelectItem>
-												<SelectItem value="sports">
-													Sports & Outdoors
-												</SelectItem>
-												<SelectItem value="toys">Toys & Games</SelectItem>
+												<SelectItem value="cars">Cars</SelectItem>
+												<SelectItem value="real state">Real State</SelectItem>
+												<SelectItem value="services">Services</SelectItem>
+												<SelectItem value="medicine">Medicine</SelectItem>
 											</SelectContent>
 										</Select>
 									</div>
@@ -367,11 +374,11 @@ export default function createAsset() {
 								</CardContent>
 							</Card>
 						</div>
-						<div className="flex justify-end gap-2">
-							<Button size="sm" variant="outline">
+						<div className="flex mt-10   justify-end p-6 gap-2">
+							<Button size="lg" variant="outline">
 								Cancel
 							</Button>
-							<Button size="sm">Save Product</Button>
+							<Button size="lg">Save Product</Button>
 						</div>
 					</form>
 				</main>
