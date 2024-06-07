@@ -28,6 +28,8 @@ import { NavBarFinal } from "@/components/NavBar";
 import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
 import { useForm } from "react-hook-form";
 
+
+
 const supabase = createClient();
 export default function createAsset() {
 	const [productName, setProductName] = useState("");
@@ -42,7 +44,7 @@ export default function createAsset() {
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [previewImages, setPreviewImages] = useState([]);
 
-	console.log(productCategory);
+
 
 	const handleFileChange = (event) => {
 		setSelectedFiles(Array.from(event.target.files));
@@ -96,17 +98,13 @@ export default function createAsset() {
 
 
 		try {
-			  const response = await axios.post("/api/products", formData, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				});
+			  const response = await axios.post("/api/products/create", JSON.stringify(productData));
 			console.log(response.data);
 		} catch (error) {
 			console.error(error);
 		}
 
-		resetFormFields();
+		// resetFormFields();
 	};
 
 	const resetFormFields = () => {

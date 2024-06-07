@@ -8,29 +8,30 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     if ( req.method !== "POST" ) {
       return res.status( 405 ).json( { error: "Method Not Allowed" } );
     }
-    let product = req.body.data;
+    let product = req.body ;
   
-    console.log(product);
-      const { data, error } = await supabase.from("products").insert([
-				{
-					name: product.productName,
-					description: product.productDescription,
-					category: product.productCategory,
-					price: product.productPrice,
-					image_folder: "",
-					tokenQuantity: product.tokenQuantity,
-					stockQuantity: product.stockQuantity,
-					shippingOptions: product.shippingOptions,
+		console.log("esooo", product );
+		
+    //   const { data, error } = await supabase.from("products").insert([
+		// 		{
+		// 			name: product.productName,
+		// 			description: product.productDescription,
+		// 			category: product.productCategory,
+		// 			price: product.productPrice,
+		// 			image_folder: "",
+		// 			tokenQuantity: product.tokenQuantity,
+		// 			stockQuantity: product.stockQuantity,
+		// 			shippingOptions: product.shippingOptions,
 					
-				},
-			]);
-    if (error) {
-      throw error;
-    }
+		// 		},
+		// 	]);
+    // if (error) {
+    //   throw error;
+    // }
 
-     await uploadImagesToProductFolder(product.id, product.formData);
+    //  await uploadImagesToProductFolder(product.id, product.formData);
 
-    return NextResponse.json({ data }, { status: 200 });
+    // return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     // Handle any errors that occur during the request
     return NextResponse.json(
