@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { NextIntlClientProvider, useMessages, useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { UserProvider } from "@/context/User";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
+import { Polygon } from "recharts";
 
 const inter = Inter({ subsets: ["latin"] });
 

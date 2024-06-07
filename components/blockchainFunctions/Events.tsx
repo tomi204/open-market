@@ -9,7 +9,7 @@ const abi = [
 const providerUrl = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID";
 
 export async function listenToCrowCreatedEvent() {
-  const provider = new ethers.JsonRpcProvider(providerUrl);
+  const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
   const contract = new ethers.Contract(CreatorContractAddress, abi, provider);
 
@@ -26,7 +26,7 @@ export async function listenToCrowCreatedEvent() {
 }
 
 export async function listenToNftMintedEvent() {
-  const provider = new ethers.JsonRpcProvider(providerUrl);
+  const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
   const contract = new ethers.Contract(CreatorContractAddress, abi, provider);
 
