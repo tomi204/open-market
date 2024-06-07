@@ -22,6 +22,13 @@ export default function CreateToken() {
     description: "",
     totalSupply: 0,
   });
+  const [token, setToken] = useState<token>({
+    name: "",
+    baseURI: "",
+    price: 0,
+    description: "",
+    totalSupply: 0,
+  });
   const { btcPrice } = TokensPrices();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {

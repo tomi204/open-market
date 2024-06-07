@@ -4,7 +4,7 @@
     },
     "Navbar": {
       "dashboard": "Ofertas",
-      "tasks": "Tareas",
+      "create": "Crear",
       "sleep": "Reposo",
       "settings": "Configuración",
       "sports": "Deportes"

@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Languages } from 'lucide-react';
 import Link from "next/link";
+
+
 export function LanguageToggle() {
     // Fonction pour changer de langue
 

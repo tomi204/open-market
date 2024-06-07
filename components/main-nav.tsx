@@ -40,10 +40,10 @@ export function MainNav({
         {t('dashboard')}
       </Link>
       <Link
-        href="/examples/dashboard"
+        href="/createProduct"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        {t('tasks')}
+        {t('create')}
       </Link>
       <Link
         href="/examples/dashboard"
