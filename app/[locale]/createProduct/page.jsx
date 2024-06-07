@@ -1,6 +1,8 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	DropdownMenuTrigger,
 	DropdownMenuLabel,
@@ -19,8 +21,66 @@ import {
 	SelectContent,
 	Select,
 } from "@/components/ui/select";
+import { useState } from "react";
+import axios from "axios";
+import { supabase } from "@/utils/supabase/client";
 
 export default function createAsset() {
+	const [productName, setProductName] = useState("");
+	const [productDescription, setProductDescription] = useState("");
+	const [productCategory, setProductCategory] = useState("");
+	const [productPrice, setProductPrice] = useState("");
+	const [tokenType, setTokenType] = useState("");
+	const [tokenQuantity, setTokenQuantity] = useState("");
+	const [stockQuantity, setStockQuantity] = useState("");
+	const [shippingOptions, setShippingOptions] = useState("");
+	const [returnPolicy, setReturnPolicy] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+
+
+	// const handleSubmit = async (e) => {
+	// 	e.preventDefault();
+
+	// 	const productData = {
+	// 		productName,
+	// 		productDescription,
+	// 		productCategory,
+	// 		productPrice,
+	// 		tokenType,
+	// 		tokenQuantity,
+	// 		shippingOptions,
+	// 		returnPolicy,
+	// 	};
+
+
+	// 	console.log({ productData });
+		
+
+	// 		const handleFileChange = (event) => {
+	// 			setSelectedFiles(Array.from(event.target.files));
+	// 		};
+
+	// 		const handleUpload = async () => {
+	// 			const filePathPrefix = "public/";
+	// 			for (let file of selectedFiles) {
+	// 				const filePath = `${filePathPrefix}${file.name}`;
+	// 				const { error } = await supabase.storage
+	// 					.from("your_bucket_name")
+	// 					.upload(filePath, file);
+	// 				if (error) console.error(`Error uploading ${file.name}:`, error);
+	// 				else console.log(`${file.name} uploaded successfully`);
+	// 			}
+	// 		};
+
+	// 	try {
+	// 		const response = await axios.post("/api/products", productData);
+	// 		console.log(response.data);
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
+
 	return (
 		<div className="grid min-h-screen w-full overflow-hidden lg:grid-cols-[280px_1fr]">
 			<div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
@@ -136,7 +196,12 @@ export default function createAsset() {
 							<CardContent className="grid gap-4">
 								<div className="grid gap-2">
 									<Label htmlFor="product-name">Product Name</Label>
-									<Input id="product-name" placeholder="Enter product name" />
+									<Input
+										id="product-name"
+										placeholder="Enter product name"
+										value={productName}
+										onChange={(e) => setProductName(e.target.value)}
+									/>
 								</div>
 								<div className="grid gap-2">
 									<Label htmlFor="product-description">Description</Label>
@@ -144,6 +209,8 @@ export default function createAsset() {
 										id="product-description"
 										placeholder="Enter product description"
 										rows={3}
+										value={productDescription}
+										onChange={(e) => setProductDescription(e.target.value)}
 									/>
 								</div>
 								<div className="grid gap-2">
@@ -167,11 +234,19 @@ export default function createAsset() {
 										id="product-price"
 										placeholder="Enter product price"
 										type="number"
+										value={productPrice}
+										onChange={(e) => setProductPrice(e.target.value)}
 									/>
 								</div>
 								<div className="grid gap-2">
 									<Label>Product Images</Label>
 									<div className="grid grid-cols-3 gap-2">
+										<input
+											type="file"
+											accept="image/*"
+											multiple
+									
+										/>
 										<Button
 											className="aspect-square"
 											size="sm"
@@ -217,7 +292,7 @@ export default function createAsset() {
 										</SelectTrigger>
 										<SelectContent>
 											<SelectItem value="erc721">ERC-721</SelectItem>
-											<SelectItem value="erc1155">ERC-1155</SelectItem>
+											{/* <SelectItem value="erc1155">ERC-1155</SelectItem> */}
 										</SelectContent>
 									</Select>
 								</div>
@@ -258,12 +333,17 @@ export default function createAsset() {
 									</Select>
 								</div>
 								<div className="grid gap-2">
-									<Label htmlFor="return-policy">Return Policy</Label>
-									<Textarea
+									<div className="flex items-center space-x-2">
+										<Checkbox id="return-policy" />
+										<Label htmlFor="return-policy">
+											Return Policy By Aproval p2p
+										</Label>
+										{/* <Textarea
 										id="return-policy"
 										placeholder="Enter return policy details"
 										rows={3}
-									/>
+									/> */}
+									</div>
 								</div>
 							</CardContent>
 						</Card>

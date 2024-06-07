@@ -43,6 +43,7 @@
     "@supabase/supabase-js": "latest",
     "@tanstack/react-table": "^8.11.2",
     "@walletconnect/web3-provider": "^1.8.0",
+    "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",

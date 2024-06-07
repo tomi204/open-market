@@ -3,11 +3,8 @@
       "title": "Bienvenido "
     },
     "Navbar": {
-      "dashboard": "Ofertas",
-      "create": "Crear",
-      "sleep": "Reposo",
-      "settings": "Configuración",
-      "sports": "Deportes"
+      "marketplace": "Marketplace",
+      "create": "Crear"
     },
     "ModeToggle": {
       "system": "Sistema",
