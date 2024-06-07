@@ -5,8 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { NextIntlClientProvider, useMessages, useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { UserProvider } from "@/context/User";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { Polygon } from "recharts";
+import { ThirdwebProvider } from "thirdweb/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,14 +38,16 @@ export default function RootLayout({ children, params }: RootLayoutProps) {
               "${inter.className} relative flex min-h-screen flex-col bg-background"
             }
           >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </ThemeProvider>
+            <ThirdwebProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                {children}
+              </ThemeProvider>
+            </ThirdwebProvider>
           </body>
         </UserProvider>
       </NextIntlClientProvider>
