@@ -21,33 +21,30 @@ import {
 	SelectContent,
 	Select,
 } from "@/components/ui/select";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { supabase } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 import { NavBarFinal } from "@/components/NavBar";
-import {listenToCrowCreatedEvent} from "@/components/blockchainFunctions/Events"
+import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
+import { useForm } from "react-hook-form";
 
+const supabase = createClient();
 export default function createAsset() {
 	const [productName, setProductName] = useState("");
 	const [productDescription, setProductDescription] = useState("");
-	const [productCategory, setProductCategory] = useState("");
+	const [productCategory, setProductCategory] = useState("Cars");
 	const [productPrice, setProductPrice] = useState("");
 	const [tokenType, setTokenType] = useState("");
 	const [tokenQuantity, setTokenQuantity] = useState("");
 	const [stockQuantity, setStockQuantity] = useState("");
 	const [shippingOption, setShippingOption] = useState("");
 	const [returnPolicy, setReturnPolicy] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState([]);
+	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [previewImages, setPreviewImages] = useState([]);
 
+	console.log(productCategory);
 
-const handleSelect  = (event) => {
-	const file = event.target.files[0];
-	setProductCategory(event.target.value); // You can replace this with your own logic, e.g., uploading the file to a server
-};
-
-
-  const handleFileChange = (event) => {
+	const handleFileChange = (event) => {
 		setSelectedFiles(Array.from(event.target.files));
 		const previewImages = Array.from(event.target.files).map((file) =>
 			URL.createObjectURL(file)
@@ -55,50 +52,75 @@ const handleSelect  = (event) => {
 		setPreviewImages(previewImages);
 	};
 
-	  useEffect(() => {
-			// Cleanup object URLs when component unmounts or when selected files change
-			return () => {
-				selectedFiles.forEach((file) => URL.revokeObjectURL(file));
-			};
-		}, [selectedFiles]);
+	useEffect(() => {
+		// Cleanup object URLs when component unmounts or when selected files change
+		return () => {
+			selectedFiles.forEach((file) => URL.revokeObjectURL(file));
+		};
+	}, [selectedFiles]);
 
 	const handleUpload = async () => {
 		const filePathPrefix = "public/";
 		for (let file of selectedFiles) {
 			const filePath = `${filePathPrefix}${file.name}`;
 			const { error } = await supabase.storage
-				.from("your_bucket_name")
+				.from("image_products")
 				.upload(filePath, file);
 			if (error) console.error(`Error uploading ${file.name}:`, error);
 			else console.log(`${file.name} uploaded successfully`);
 		}
 	};
 
-		
-	const handleSubmit = async (e) => {
+	const handleSub = async (e) => {
 		e.preventDefault();
+
+		let formData = new FormData();
+
+		selectedFiles.forEach((file, index) => {
+			formData.append(`product_images[${index}]`, file, file.name);
+		});
 
 		const productData = {
 			productName,
 			productDescription,
 			productCategory,
 			productPrice,
-			tokenType,
 			tokenQuantity,
 			shippingOption,
-			returnPolicy,
+			stockQuantity,
 		};
 
-
 		console.log({ productData });
-		
 
-		// try {
-		// 	const response = await axios.post("/api/products", productData);
-		// 	console.log(response.data);
-		// } catch (error) {
-		// 	console.error(error);
-		// }
+		formData.append("productData", JSON.stringify(productData));
+
+
+		try {
+			  const response = await axios.post("/api/products", formData, {
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				});
+			console.log(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+
+		resetFormFields();
+	};
+
+	const resetFormFields = () => {
+		setProductName("");
+		setProductDescription("");
+		setProductCategory("Cars"); // Reset to default value
+		setProductPrice("");
+		setTokenType("");
+		setTokenQuantity("");
+		setStockQuantity("");
+		setShippingOption("");
+		setReturnPolicy("");
+		setSelectedFiles([]);
+		setPreviewImages([]);
 	};
 
 	return (
@@ -197,7 +219,7 @@ const handleSelect  = (event) => {
 					</DropdownMenu> */}
 
 				<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-					<form onSubmit={handleSubmit}>
+					<form onSubmit={handleSub}>
 						<div className="flex items-center">
 							<h1 className="font-semibold text-lg md:text-3xl">
 								Create Product
@@ -234,11 +256,7 @@ const handleSelect  = (event) => {
 									</div>
 									<div className="grid gap-2">
 										<Label htmlFor="product-category">Category</Label>
-										<Select
-											defaultValue="Cars"
-											id="product-category"
-											onChange={handleSelect}
-											value={productCategory}>
+										<Select onValueChange={setProductCategory}>
 											<SelectTrigger>
 												<SelectValue placeholder="Select category" />
 											</SelectTrigger>
@@ -309,11 +327,12 @@ const handleSelect  = (event) => {
 												<SelectValue placeholder="Select token type" />
 											</SelectTrigger>
 											<SelectContent>
-												<SelectItem value="erc721">ERC-721</SelectItem>
+												<SelectItem value="erc721">ERC-721- RBTC</SelectItem>
 												{/* <SelectItem value="erc1155">ERC-1155</SelectItem> */}
 											</SelectContent>
 										</Select>
 									</div>
+
 									<div className="grid gap-2">
 										<Label htmlFor="token-quantity">Quantity</Label>
 										<Input
@@ -343,11 +362,7 @@ const handleSelect  = (event) => {
 									</div>
 									<div className="grid gap-2">
 										<Label htmlFor="shipping-options">Shipping Options</Label>
-										<Select
-											defaultValue="standard"
-											id="shipping-options"
-											value={shippingOption}
-											onChange={(e) => setShippingOption(e.target.value)}>
+										<Select onValueChange={setShippingOption}>
 											<SelectTrigger>
 												<SelectValue placeholder="Select shipping option" />
 											</SelectTrigger>
@@ -444,8 +459,6 @@ function LineChartIcon(props) {
 	);
 }
 
-
-
 function PackageIcon(props) {
 	return (
 		<svg
@@ -468,9 +481,7 @@ function PackageIcon(props) {
 }
 
 function PlusIcon(props) {
-
 	return (
-		
 		<svg
 			{...props}
 			xmlns="http://www.w3.org/2000/svg"
