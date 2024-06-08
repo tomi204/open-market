@@ -2,11 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
 
-const supabase = createClient();
+
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
 	// Handle GET request here
 	try {
+		const supabase = createClient();
 		// Fetch products from Supabase
 		const { data, error } = await supabase.from("products").select("*");
 
