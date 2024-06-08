@@ -2,7 +2,7 @@ import { ERC721Abi } from "@/contracts/ABI/ERC721";
 import { ethers } from "ethers";
 
 export async function ViewTx(txHash: string) {
-  const provider = new ethers.WebSocketProvider(
+  const provider = new ethers.providers.WebSocketProvider(
     "https://public-node.testnet.rsk.co"
   );
 
@@ -12,7 +12,7 @@ export async function ViewTx(txHash: string) {
 }
 
 export async function getBaseUri(address: string) {
-  const provider = new ethers.JsonRpcProvider(
+  const provider = new ethers.providers.JsonRpcProvider(
     "https://public-node.testnet.rsk.co"
   );
   const contract = new ethers.Contract(address, ERC721Abi, provider);

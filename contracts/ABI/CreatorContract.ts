@@ -135,9 +135,9 @@ export const CreatorContractABI = [
       },
       {
         indexed: false,
-        internalType: "string",
-        name: "projectId",
-        type: "string",
+        internalType: "address",
+        name: "_owner",
+        type: "address",
       },
     ],
     name: "crowCreated",
@@ -159,11 +159,6 @@ export const CreatorContractABI = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "_baseURI",
-        type: "string",
-      },
-      {
         internalType: "uint256",
         name: "_price",
         type: "uint256",
@@ -177,16 +172,6 @@ export const CreatorContractABI = [
         internalType: "address",
         name: "_owner",
         type: "address",
-      },
-      {
-        internalType: "string",
-        name: "_name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_userId",
-        type: "string",
       },
     ],
     name: "createCrow",

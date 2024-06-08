@@ -12,7 +12,7 @@ const providerUrl = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID";
 //llama la funcion , escucha y devuelve el evento, comparas el owner con la wallet del user y te guardas el newcrow 
 
 export async function listenToCrowCreatedEvent() {
-  const provider = new ethers.JsonRpcProvider(providerUrl);
+  const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
   const contract = new ethers.Contract(CreatorContractAddress, address, provider);
 
@@ -29,7 +29,7 @@ export async function listenToCrowCreatedEvent() {
 }
 
 export async function listenToNftMintedEvent() {
-  const provider = new ethers.JsonRpcProvider(providerUrl);
+  const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
   const contract = new ethers.Contract(
 		CreatorContractAddress,
