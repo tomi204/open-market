@@ -25,9 +25,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { createClient } from "@/utils/supabase/client";
 import { NavBarFinal } from "@/components/NavBar";
-import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
-
-
+import { CreateNFT } from "@/components/blockchainFunctions/writeTx";
+import { useActiveAccount } from "thirdweb/react";
+import { WalletButton } from "@/components/wallet/index";
 
 
 export default function createAsset() {
@@ -43,9 +43,10 @@ export default function createAsset() {
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [previewImages, setPreviewImages] = useState([]);
 
-const supabase = createClient();
-
-
+	const account = useActiveAccount();
+	const supabase = createClient();
+	const owner_address = account?.address;
+console.log({ owner_address });
 	const handleFileChange = (event) => {
 		setSelectedFiles(Array.from(event.target.files));
 		const previewImages = Array.from(event.target.files).map((file) =>
@@ -89,11 +90,18 @@ const supabase = createClient();
 			productPrice,
 			shippingOption,
 			stockQuantity,
+			owner_address,
 		};
 
 		console.log({ productData });
 
 		formData.append("productData", JSON.stringify(productData));
+
+		const { tx } = await CreateNFT({
+			price: Number(productPrice),
+			totalSupply: Number(stockQuantity),
+			userAddress: owner_address,
+		});
 
 		try {
 			const response = await fetch("/api/products/create", {
@@ -175,7 +183,7 @@ const supabase = createClient();
 			</div>
 			<div className="flex flex-col">
 				<NavBarFinal />
-
+				<WalletButton/>
 				{/* <div className="w-full flex-1">
 					<form>
 						<div className="relative">
@@ -217,7 +225,6 @@ const supabase = createClient();
 							<DropdownMenuItem>Logout</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu> */}
-
 				<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
 					<form onSubmit={handleSub}>
 						<div className="flex items-center">
@@ -332,7 +339,7 @@ const supabase = createClient();
 											</SelectContent>
 										</Select>
 									</div>
-{/* 
+									{/* 
 									<div className="grid gap-2">
 										<Label htmlFor="token-quantity">Quantity</Label>
 										<Input
@@ -344,8 +351,6 @@ const supabase = createClient();
 										/>
 									</div> */}
 								</CardContent>
-							</Card>
-							<Card>
 								<CardHeader>
 									<CardTitle>Additional Details</CardTitle>
 								</CardHeader>
@@ -557,7 +562,3 @@ function WalletIcon(props) {
 		</svg>
 	);
 }
-
-
-
-

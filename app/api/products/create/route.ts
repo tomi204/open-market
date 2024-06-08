@@ -1,39 +1,46 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
-
+import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
 
 
 export async function POST(req: any, res:any) {
   try {
   
-    const supabase = createClient();
-    let product = await req.json();
+      const supabase = createClient();
+		  let product = await req.json();
 		
-      const { data, error } = await supabase.from("products").insert([
-				{
-					product_name: product.productName,
-					product_description: product.productDescription,
-					product_category: product.productCategory,
-					product_price: product.productPrice,
-					image_folder: "",
-					stock_quantity: product.stockQuantity,
-					shipping_option: product.shippingOption,
-			
-				},
-			]);
+      let trnx = await listenToCrowCreatedEvent();
+
+		console.log( trnx, "trnx" );
+		
+	
+
+		
+      // const { data, error } = await supabase.from("products").insert([
+			// 	{
+			// 		product_name: product.productName,
+			// 		product_description: product.productDescription,
+			// 		product_category: product.productCategory,
+			// 		product_price: product.productPrice,
+			// 		image_folder: "",
+			// 		stock_quantity: product.stockQuantity,
+			// 		shipping_option: product.shippingOption,
+			      // owner_address:product.owner_address,
+			// 	},
+			// ]);
 		
 		
-     if (error) {
-				return NextResponse.json({
-					message: "Error inserting product",
-					error: error.message,
-				});
-			}
+    //  if (error) {
+		// 		return NextResponse.json({
+		// 			message: "Error inserting product",
+		// 			error: error.message,
+		// 		});
+		// 	}
 
     //  await uploadImagesToProductFolder(product.id, product.formData);
 
-    return NextResponse.json({ data}, { status: 200 });
+    // return NextResponse.json({ data}, { status: 200 });
   } catch (error:any) {
     // Handle any errors that occur during the request
     return NextResponse.json(

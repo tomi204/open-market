@@ -45,15 +45,7 @@ export default function CreateToken() {
 
   const createToken = async () => {
     const baseUri = "https://ipfs.io/ipfs/QmZ";
-    const { tx } = await CreateNFT({
-      baseURI: baseUri,
-      price: token.price,
-      description: token.description,
-      totalSupply: token.totalSupply,
-      owner: "0x123",
-      name: token.name,
-      userId: "123",
-    });
+  
   };
 
   return (
