@@ -1,44 +1,43 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
-  const supabase = createClient();
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+
+
+export async function POST(req: any, res:any) {
   try {
-	if ( req.method !== "POST" ) {
-	  return res.status( 405 ).json( { error: "Method Not Allowed" } );
-		}
-		
-		 const cookieStore = cookies();
-	let product = req.body ;
   
-		console.log("esooo", product.data );
+    const supabase = createClient();
+    let product = await req.json();
 		
-	  const { data, error } = await supabase.from("products").insert([
+      const { data, error } = await supabase.from("products").insert([
 				{
-					name: product.productName,
-					description: product.productDescription,
-					category: product.productCategory,
-					price: product.productPrice,
+					product_name: product.productName,
+					product_description: product.productDescription,
+					product_category: product.productCategory,
+					product_price: product.productPrice,
 					image_folder: "",
-					tokenQuantity: product.tokenQuantity,
-					stockQuantity: product.stockQuantity,
-					shippingOptions: product.shippingOptions,
-					
+					stock_quantity: product.stockQuantity,
+					shipping_option: product.shippingOption,
+			
 				},
 			]);
-    if (error) {
-      throw error;
-    }
+		
+		
+     if (error) {
+				return NextResponse.json({
+					message: "Error inserting product",
+					error: error.message,
+				});
+			}
 
-     await uploadImagesToProductFolder(product.id, product.formData);
+    //  await uploadImagesToProductFolder(product.id, product.formData);
 
-    return NextResponse.json({ data }, { status: 200 });
-  } catch (error) {
+    return NextResponse.json({ data}, { status: 200 });
+  } catch (error:any) {
     // Handle any errors that occur during the request
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: error.message },
       { status: 500 }
     );
   }
@@ -46,6 +45,9 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
 
 async function uploadImagesToProductFolder(productId:string, files:any) {
+
+
+	    const supabase = createClient();
 	const folderPath = `products/${productId}/`;
 	for (let file of files) {
 		const fileName = `${Date.now()}-${file.name}`; // Generate a unique file name

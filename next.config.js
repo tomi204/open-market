@@ -1,8 +1,6 @@
 
 const nextConfig = {
-    api: {
-        bodyParser: false,
-    },
+
 };
 
 const withNextIntl = require('next-intl/plugin')(

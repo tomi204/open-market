@@ -30,7 +30,6 @@ import { useForm } from "react-hook-form";
 
 
 
-const supabase = createClient();
 export default function createAsset() {
 	const [productName, setProductName] = useState("");
 	const [productDescription, setProductDescription] = useState("");
@@ -44,6 +43,7 @@ export default function createAsset() {
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [previewImages, setPreviewImages] = useState([]);
 
+const supabase = createClient();
 
 
 	const handleFileChange = (event) => {
@@ -87,7 +87,6 @@ export default function createAsset() {
 			productDescription,
 			productCategory,
 			productPrice,
-			tokenQuantity,
 			shippingOption,
 			stockQuantity,
 		};
@@ -96,10 +95,13 @@ export default function createAsset() {
 
 		formData.append("productData", JSON.stringify(productData));
 
-
 		try {
-			  const response = await axios.post("/api/products/create", JSON.stringify(productData));
-			console.log(response.data);
+			const response = await fetch("/api/products/create", {
+				method: "POST",
+				body: productData,
+			});
+			const data = await response.json();
+			console.log(data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -330,7 +332,7 @@ export default function createAsset() {
 											</SelectContent>
 										</Select>
 									</div>
-
+{/* 
 									<div className="grid gap-2">
 										<Label htmlFor="token-quantity">Quantity</Label>
 										<Input
@@ -340,7 +342,7 @@ export default function createAsset() {
 											value={tokenQuantity}
 											onChange={(e) => setTokenQuantity(e.target.value)}
 										/>
-									</div>
+									</div> */}
 								</CardContent>
 							</Card>
 							<Card>
@@ -555,3 +557,7 @@ function WalletIcon(props) {
 		</svg>
 	);
 }
+
+
+
+
