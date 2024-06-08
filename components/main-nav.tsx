@@ -30,14 +30,17 @@ export function MainNav({
               <path d="M2 12h4l3 9 3-9h4" />
               <circle cx="12" cy="4" r="2" />
             </svg>
-
-              OPEN MARKET
+      <Link
+        href="/"
+        className="text-sm font-medium transition-colors hover:text-primary"
+      >OPEN MARKET
+      </Link>
         </div>
       <Link
-        href="/examples/dashboard"
+        href="/marketplace"
         className="text-sm font-medium transition-colors hover:text-primary"
       >
-        {t('dashboard')}
+      {t('marketplace')}
       </Link>
       <Link
         href="/createProduct"
@@ -45,24 +48,7 @@ export function MainNav({
       >
         {t('create')}
       </Link>
-      <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        {t('sports')}
-      </Link>
-      <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        {t('sleep')}
-      </Link>
-      <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        {t('settings')}
-      </Link>
+      
     </nav>
   )
 }

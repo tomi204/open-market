@@ -13,6 +13,8 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Link from "next/link"
+import { NavBarFinal } from "@/components/NavBar"
+import Footer from "@/components/footer"
 
 interface NFT {
   id: number;
@@ -65,8 +67,9 @@ export default function Component() {
   }, [searchTerm, filters])
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="flex flex-col md:flex-row items-center justify-between mb-8">
+    <div className="container mx-auto px-4 md:px-6 pb-24">
+      <NavBarFinal/>
+      <div className="flex flex-col md:flex-row items-center justify-between mb-8 pt-12">
         <h1 className="text-3xl font-bold mb-4 md:mb-0">NFT Marketplace</h1>
         <div className="flex items-center gap-4">
           <Input
