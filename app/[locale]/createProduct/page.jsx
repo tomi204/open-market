@@ -122,13 +122,13 @@ export default function CreateAsset() {
 		console.log({ trxn });
 
 		const productData = {
-			product_name: productNamee,
+			product_name: productName,
 			product_description: productDescription,
 			product_category: productCategory,
 			product_price: productPrice,
 			image_folder: selectedFiles,
 			stock_quantity: stockQuantity,
-			shipping_option: product.shippingOption,
+			shipping_option: shippingOption,
 			owner_address,
 			selectedFiles,
 			productBrand,
