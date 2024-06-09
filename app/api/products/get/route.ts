@@ -15,7 +15,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 			throw new Error("Failed to fetch products");
 		}
 
-
+console.log(products)
 		   const productsWithImages = await Promise.all(
 					products.map(async (product) => {
 						const { data: images, error: imagesError } = await supabase.storage

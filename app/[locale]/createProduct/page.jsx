@@ -28,9 +28,8 @@ import { NavBarFinal } from "@/components/NavBar";
 import { CreateNFT } from "@/components/blockchainFunctions/writeTx";
 import { useActiveAccount } from "thirdweb/react";
 import { WalletButton } from "@/components/wallet/index";
-import { uuid } from 'uuidv4';
+import { uuid } from "uuidv4";
 import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
-
 
 export default function createAsset() {
 	const [productName, setProductName] = useState("");
@@ -44,14 +43,11 @@ export default function createAsset() {
 	const [returnPolicy, setReturnPolicy] = useState("");
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [previewImages, setPreviewImages] = useState([]);
-
 	const account = useActiveAccount();
 	const supabase = createClient();
 	const owner_address = account?.address;
 	console.log({ owner_address });
 
-
-	
 	const handleFileChange = (event) => {
 		setSelectedFiles(Array.from(event.target.files));
 		const previewImages = Array.from(event.target.files).map((file) =>
@@ -59,9 +55,7 @@ export default function createAsset() {
 		);
 		setPreviewImages(previewImages);
 	};
-
-
-
+	
 	useEffect(() => {
 		// Cleanup object URLs when component unmounts or when selected files change
 		return () => {
@@ -69,65 +63,60 @@ export default function createAsset() {
 		};
 	}, [selectedFiles]);
 
-
 	console.log({ selectedFiles });
 
+	// const handleSubmit = async (productDetails, selectedFiles) => {
+	// 	// Generate a UUID for the new product
+	// 	const productId = uuidv4();
 
-	
+	// 	// Insert the new product into the products table
+	// 	const { data: insertedProduct, error: insertError } = await supabase
+	// 		.from("products")
+	// 		.insert([{ id: productId, ...productDetails }]);
 
-// const handleSubmit = async (productDetails, selectedFiles) => {
-// 	// Generate a UUID for the new product
-// 	const productId = uuidv4();
+	// 	if (insertError) {
+	// 		console.error("Error creating product:", insertError);
+	// 		return;
+	// 	}
 
-// 	// Insert the new product into the products table
-// 	const { data: insertedProduct, error: insertError } = await supabase
-// 		.from("products")
-// 		.insert([{ id: productId, ...productDetails }]);
+	// 	// Proceed to upload images and link them to the newly created product
+	// 	const filePathPrefix = "public/";
+	// 	for (let file of selectedFiles) {
+	// 		const filePath = `${filePathPrefix}${file.name}`;
+	// 		const { error: uploadError } = await supabase.storage
+	// 			.from("image_products")
+	// 			.upload(filePath, file);
 
-// 	if (insertError) {
-// 		console.error("Error creating product:", insertError);
-// 		return;
-// 	}
+	// 		if (uploadError) {
+	// 			console.error(`Error uploading ${file.name}:`, uploadError);
+	// 			continue; // Skip to the next file if there's an error
+	// 		}
 
-// 	// Proceed to upload images and link them to the newly created product
-// 	const filePathPrefix = "public/";
-// 	for (let file of selectedFiles) {
-// 		const filePath = `${filePathPrefix}${file.name}`;
-// 		const { error: uploadError } = await supabase.storage
-// 			.from("image_products")
-// 			.upload(filePath, file);
+	// 		// Insert or update the image record in the images table, linking it to the product
+	// 		const imagePath = filePath; // Assuming the path is sufficient for your use case
+	// 		const { error: linkError } = await supabase
+	// 			.from("images")
+	// 			.insert(
+	// 				[{ id: uuidv4(), image_path: imagePath, product_id: productId }],
+	// 				{ returning: "minimal" }
+	// 			);
 
-// 		if (uploadError) {
-// 			console.error(`Error uploading ${file.name}:`, uploadError);
-// 			continue; // Skip to the next file if there's an error
-// 		}
-
-// 		// Insert or update the image record in the images table, linking it to the product
-// 		const imagePath = filePath; // Assuming the path is sufficient for your use case
-// 		const { error: linkError } = await supabase
-// 			.from("images")
-// 			.insert(
-// 				[{ id: uuidv4(), image_path: imagePath, product_id: productId }],
-// 				{ returning: "minimal" }
-// 			);
-
-// 		if (linkError) {
-// 			console.error(
-// 				`Error linking image ${file.name} to product ${productId}:`,
-// 				linkError
-// 			);
-// 		} else {
-// 			console.log(`${file.name} uploaded and linked to product ${productId}`);
-// 		}
-// 	}
-// };
-
+	// 		if (linkError) {
+	// 			console.error(
+	// 				`Error linking image ${file.name} to product ${productId}:`,
+	// 				linkError
+	// 			);
+	// 		} else {
+	// 			console.log(`${file.name} uploaded and linked to product ${productId}`);
+	// 		}
+	// 	}
+	// };
 
 	const handleSub = async (e) => {
 		e.preventDefault();
 
 		let trxn = listenToCrowCreatedEvent();
-		
+
 		console.log({ trxn });
 
 		const productData = {
@@ -143,7 +132,6 @@ export default function createAsset() {
 		};
 
 		console.log({ productData });
-
 
 		const { tx } = await CreateNFT({
 			price: Number(productPrice),
@@ -231,7 +219,6 @@ export default function createAsset() {
 			</div>
 			<div className="flex flex-col">
 				<NavBarFinal />
-				<WalletButton/>
 				{/* <div className="w-full flex-1">
 					<form>
 						<div className="relative">
