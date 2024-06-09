@@ -6,7 +6,7 @@
  */
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -16,6 +16,26 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Link from "next/link"
 import { NavBarFinal } from "@/components/NavBar"
 import Footer from "@/components/footer"
+//swr.vercel.app/es-ES
+
+// interface UserData {
+// 	id: number;
+// 	name: string;
+// }
+
+// const fetcher = (url: string): Promise<UserData[]> =>
+// 	fetch(url).then((res) => res.json());
+
+// const { data, error } = useSWR<UserData[], Error>(
+// 	"https://api.example.com/data",
+// 	fetcher
+// );
+
+
+import useSWR, { Fetcher } from "swr";
+import axios from "axios";
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface NFT {
   id: number;
@@ -38,7 +58,11 @@ export default function Component() {
     category: [],
     priceRange: [0, 1000],
     sortBy: "trending",
-  })
+  } )
+    
+  const { data } = useSWR<any>( "/api/products/get", fetcher );
+  
+  
 
   const nfts: NFT[] = [
     { id: 1, title: "Cosmic Explosion", artist: "Galactic Painter", price: 0.5, category: "Art", image: "/placeholder.svg" },
@@ -48,6 +72,12 @@ export default function Component() {
     { id: 5, title: "Ethereal Dancer", artist: "Holographic Muse", price: 0.4, category: "Art", image: "/placeholder.svg" },
     { id: 6, title: "Futuristic Mech", artist: "Cybernetic Visionary", price: 0.9, category: "Art", image: "/placeholder.svg" },
   ]
+
+
+
+
+
+
 
   const filteredNFTs = useMemo(() => {
     return nfts

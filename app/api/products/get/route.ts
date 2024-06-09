@@ -14,6 +14,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 		if (error) {
 			throw new Error("Failed to fetch products");
 		}
+		console.log(data)
 
 		return NextResponse.json({ data }, { status: 200 });
 	} catch (error) {
