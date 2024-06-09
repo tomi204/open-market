@@ -33,6 +33,7 @@ import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Event
 
 export default function createAsset() {
 	const [productName, setProductName] = useState("");
+	const [productBrand, setProductBrand] = useState("");
 	const [productDescription, setProductDescription] = useState("");
 	const [productCategory, setProductCategory] = useState("Cars");
 	const [productPrice, setProductPrice] = useState("");
@@ -55,7 +56,7 @@ export default function createAsset() {
 		);
 		setPreviewImages(previewImages);
 	};
-	
+
 	useEffect(() => {
 		// Cleanup object URLs when component unmounts or when selected files change
 		return () => {
@@ -128,6 +129,7 @@ export default function createAsset() {
 			stockQuantity,
 			owner_address,
 			selectedFiles,
+			productBrand,
 			contract_address: "trxn.contract_address",
 		};
 
@@ -155,6 +157,7 @@ export default function createAsset() {
 
 	const resetFormFields = () => {
 		setProductName("");
+		setProductBrand("");
 		setProductDescription("");
 		setProductCategory("Cars"); // Reset to default value
 		setProductPrice("");
@@ -278,12 +281,21 @@ export default function createAsset() {
 
 								<CardContent className="grid gap-4">
 									<div className="grid gap-2">
-										<Label htmlFor="product-name">Product Name</Label>
+										<Label htmlFor="product-name"> Name</Label>
 										<Input
 											id="product-name"
 											placeholder="Enter product name"
 											value={productName}
 											onChange={(e) => setProductName(e.target.value)}
+										/>
+									</div>
+									<div className="grid gap-2">
+										<Label htmlFor="product-brand">BRAND</Label>
+										<Input
+											id="product-brand"
+											placeholder="Enter product name"
+											value={productBrand}
+											onChange={(e) => setProductBrand(e.target.value)}
 										/>
 									</div>
 									<div className="grid gap-2">
@@ -311,16 +323,7 @@ export default function createAsset() {
 											</SelectContent>
 										</Select>
 									</div>
-									<div className="grid gap-2">
-										<Label htmlFor="product-price">Price</Label>
-										<Input
-											id="product-price"
-											placeholder="Enter product price"
-											type="number"
-											value={productPrice}
-											onChange={(e) => setProductPrice(e.target.value)}
-										/>
-									</div>
+
 									<div className="grid gap-2">
 										<Label>Product Images</Label>
 										<div className="flex flex-wrap justify-center gap-2 mt-2">
@@ -373,6 +376,16 @@ export default function createAsset() {
 												{/* <SelectItem value="erc1155">ERC-1155</SelectItem> */}
 											</SelectContent>
 										</Select>
+									</div>
+									<div className="grid gap-2">
+										<Label htmlFor="product-price">Crypto Price</Label>
+										<Input
+											id="product-price"
+											placeholder="Enter product price"
+											type="number"
+											value={productPrice}
+											onChange={(e) => setProductPrice(e.target.value)}
+										/>
 									</div>
 									{/* 
 									<div className="grid gap-2">
