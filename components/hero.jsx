@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import heroImage from "@/public/openLogo.png";
-import { WalletButton } from "@/components/wallet/index";
+
 
 function HeroComponent() {
   return (
@@ -14,9 +14,7 @@ function HeroComponent() {
           <p className="text-lg lg:text-xl text-gray-400 max-w-xl">
             Discover, Trade, and Own Unique Digital Assets
           </p>
-          <div style={{ marginTop: '2em' }}>
-            <WalletButton />
-          </div>
+        
         </div>
       </div>
       <div className="py-6 md:order-1 md:block flex justify-center">

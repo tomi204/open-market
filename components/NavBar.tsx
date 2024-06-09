@@ -18,22 +18,25 @@ import {useTranslations} from 'next-intl'
 import LanguageToggle from "./LanguageToggle"
 import { MainNav } from "./main-nav"
 import { UserNav } from "./user-nav"
-
+import { WalletButton } from "@/components/wallet/index";
 
 export function NavBarFinal() {
   const t = useTranslations('Navbar');
 
   return (
-    <div className="">
-      <div className="flex h-16 items-center px-4 bg-transparent">
-        <MainNav className="mx-6" />
-        <div className="ml-auto flex items-center space-x-4">
-          <UserNav />
-          <LanguageToggle />
-          <ModeToggle />
-        </div>
-      </div>
-    </div>
-  )
+		<div className="">
+			<div className="flex h-16 items-center px-4 bg-transparent">
+				<MainNav className="mx-6" />
+				<div className="ml-auto flex items-center space-x-4">
+				
+						<WalletButton />
+			
+					{/* <UserNav /> */}
+					<LanguageToggle />
+					<ModeToggle />
+				</div>
+			</div>
+		</div>
+	);
 }
 
