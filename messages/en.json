@@ -3,12 +3,9 @@
       "title": ""
     },
     "Navbar": {
-      "dashboard": "Dashboard",
-      "create": "Create",
-      "sleep": "Sleep",
-      "settings": "Settings",
-      "sports": "Sports",
-      "marketplace": "Marketplace"
+
+      "marketplace": "Marketplace",
+      "create": "Create"
     },
     "ModeToggle": {
       "system": "System",

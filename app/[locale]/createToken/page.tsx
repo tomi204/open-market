@@ -7,6 +7,7 @@ import { Loader } from "lucide-react";
 import { useState } from "react";
 import { CreateNFT } from "@/components/blockchainFunctions/writeTx";
 import { WalletButton } from "@/components/wallet";
+
 interface token {
   name: string;
   baseURI: string;
@@ -50,33 +51,11 @@ export default function CreateToken() {
 
   const createToken = async () => {
     const baseUri = "https://ipfs.io/ipfs/QmZ";
-    const { tx } = await CreateNFT({
-      baseURI: baseUri,
-      price: token.price,
-      description: token.description,
-      totalSupply: token.totalSupply,
-      owner: "0x123",
-      name: token.name,
-      userId: "123",
-    });
+  
   };
 
   return (
     <>
-      {btcPrice ? (
-        <section className="text-gray-600 body-font">
-          <h2 className="text-2xl font-bold text-center">Create Token</h2>
-          <WalletButton />
-          <div className="flex m-auto  flex-col w-6/12 gap-4 items-center justify-center ">
-            <Input placeholder="Item Name" className="w-4/12 text-white" />
-            <Input
-              placeholder="Item Description"
-              className="w-4/12 text-white"
-            />
-            <Label htmlFor="price" className="w-4/12 text-white">
-              Item Price in USD
-            </Label>
-
             {btcPrice && (
               <div className="flex flex-row  gap-4 w-9/12 items-center justify-center">
                 <Input
