@@ -2,6 +2,7 @@ import { CreatorContractABI } from "@/contracts/ABI/CreatorContract";
 import { ERC721Abi } from "@/contracts/ABI/ERC721";
 import { CreatorContractAddress } from "@/contracts/Addresses";
 import { ethers } from "ethers";
+
 interface token {
   price: number;
   userAddress: string;
@@ -36,6 +37,7 @@ export async function CreateNFT({
 	}
 
 	return { tx };
+
 }
 
 ////////////////////////////////////////

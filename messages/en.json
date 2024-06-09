@@ -1,8 +1,9 @@
 {
     "Index": {
-      "title": "Hello world!"
+      "title": ""
     },
     "Navbar": {
+
       "marketplace": "Marketplace",
       "create": "Create"
     },
