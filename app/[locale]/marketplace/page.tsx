@@ -61,7 +61,7 @@ export default function Component() {
   } )
     
   const { data } = useSWR<any>( "/api/products/get", fetcher );
-  
+  console.log( { data } )
   
 
   const nfts: NFT[] = [

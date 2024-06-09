@@ -2,45 +2,49 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
 import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
-
+import { uuid } from "uuidv4";
 
 export async function POST(req: any, res:any) {
   try {
   
-      const supabase = createClient();
-		  let product = await req.json();
-		
-      let trnx = await listenToCrowCreatedEvent();
+    const supabase = createClient();
+ const productPayload = await req.json();
 
-		console.log( trnx, "trnx" );
+		console.log( productPayload );
 		
-	
+ const product = {
+		...productPayload,
+		id: uuid(), // Generate a unique ID for the new product
+ };
+		
+   const { data, error } = await supabase.from("products").insert([product]);
+		
+		
+     if (error) {
+				return NextResponse.json({
+					message: "Error inserting product",
+					error: error.message,
+				});
+			}
+		const images = productPayload.selectedFiles;
+		
+		
+  await Promise.all(
+		images.map(async (image:any) => {
+			const filePath = `public/products/${product.id}/${image.originalname}`; // Adjust the path as needed
+			const { error: uploadError } = await supabase.storage
+				.from("image_products") // Replace with your actual bucket name
+				.upload(filePath, image.buffer); // Assuming images are sent as Buffer objects
 
-		
-      // const { data, error } = await supabase.from("products").insert([
-			// 	{
-			// 		product_name: product.productName,
-			// 		product_description: product.productDescription,
-			// 		product_category: product.productCategory,
-			// 		product_price: product.productPrice,
-			// 		image_folder: "",
-			// 		stock_quantity: product.stockQuantity,
-			// 		shipping_option: product.shippingOption,
-			      // owner_address:product.owner_address,
-			// 	},
-			// ]);
-		
-		
-    //  if (error) {
-		// 		return NextResponse.json({
-		// 			message: "Error inserting product",
-		// 			error: error.message,
-		// 		});
-		// 	}
+			if (uploadError) {
+				throw new Error(
+					`Error uploading image ${image.originalname}: ${uploadError.message}`
+				);
+			}
+		})
+	);
 
-    //  await uploadImagesToProductFolder(product.id, product.formData);
-
-    // return NextResponse.json({ data}, { status: 200 });
+    return NextResponse.json({ data}, { status: 200 });
   } catch (error:any) {
     // Handle any errors that occur during the request
     return NextResponse.json(

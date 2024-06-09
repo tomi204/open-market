@@ -28,6 +28,7 @@ import { NavBarFinal } from "@/components/NavBar";
 import { CreateNFT } from "@/components/blockchainFunctions/writeTx";
 import { useActiveAccount } from "thirdweb/react";
 import { WalletButton } from "@/components/wallet/index";
+import { uuid } from 'uuidv4';
 
 
 export default function createAsset() {
@@ -46,7 +47,8 @@ export default function createAsset() {
 	const account = useActiveAccount();
 	const supabase = createClient();
 	const owner_address = account?.address;
-console.log({ owner_address });
+	console.log({ owner_address });
+	
 	const handleFileChange = (event) => {
 		setSelectedFiles(Array.from(event.target.files));
 		const previewImages = Array.from(event.target.files).map((file) =>
@@ -62,26 +64,63 @@ console.log({ owner_address });
 		};
 	}, [selectedFiles]);
 
-	const handleUpload = async () => {
-		const filePathPrefix = "public/";
-		for (let file of selectedFiles) {
-			const filePath = `${filePathPrefix}${file.name}`;
-			const { error } = await supabase.storage
-				.from("image_products")
-				.upload(filePath, file);
-			if (error) console.error(`Error uploading ${file.name}:`, error);
-			else console.log(`${file.name} uploaded successfully`);
+
+	console.log({ selectedFiles });
+
+
+	
+
+const handleSubmit = async (productDetails, selectedFiles) => {
+	// Generate a UUID for the new product
+	const productId = uuidv4();
+
+	// Insert the new product into the products table
+	const { data: insertedProduct, error: insertError } = await supabase
+		.from("products")
+		.insert([{ id: productId, ...productDetails }]);
+
+	if (insertError) {
+		console.error("Error creating product:", insertError);
+		return;
+	}
+
+	// Proceed to upload images and link them to the newly created product
+	const filePathPrefix = "public/";
+	for (let file of selectedFiles) {
+		const filePath = `${filePathPrefix}${file.name}`;
+		const { error: uploadError } = await supabase.storage
+			.from("image_products")
+			.upload(filePath, file);
+
+		if (uploadError) {
+			console.error(`Error uploading ${file.name}:`, uploadError);
+			continue; // Skip to the next file if there's an error
 		}
-	};
+
+		// Insert or update the image record in the images table, linking it to the product
+		const imagePath = filePath; // Assuming the path is sufficient for your use case
+		const { error: linkError } = await supabase
+			.from("images")
+			.insert(
+				[{ id: uuidv4(), image_path: imagePath, product_id: productId }],
+				{ returning: "minimal" }
+			);
+
+		if (linkError) {
+			console.error(
+				`Error linking image ${file.name} to product ${productId}:`,
+				linkError
+			);
+		} else {
+			console.log(`${file.name} uploaded and linked to product ${productId}`);
+		}
+	}
+};
+
 
 	const handleSub = async (e) => {
 		e.preventDefault();
 
-		let formData = new FormData();
-
-		selectedFiles.forEach((file, index) => {
-			formData.append(`product_images[${index}]`, file, file.name);
-		});
 
 		const productData = {
 			productName,
@@ -91,11 +130,11 @@ console.log({ owner_address });
 			shippingOption,
 			stockQuantity,
 			owner_address,
+			selectedFiles,
 		};
 
 		console.log({ productData });
 
-		formData.append("productData", JSON.stringify(productData));
 
 		const { tx } = await CreateNFT({
 			price: Number(productPrice),
@@ -312,13 +351,13 @@ console.log({ owner_address });
 												/>
 											))}
 										</div>
-										<Button
+										{/* <Button
 											size="sm"
 											variant="outline"
 											className="mt-5"
 											onClick={handleUpload}>
 											Upload Selected Images
-										</Button>
+										</Button> */}
 									</div>
 								</CardContent>
 							</Card>
