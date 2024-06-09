@@ -6,7 +6,7 @@ import { uuid } from "uuidv4";
 export async function POST(req: any, res:any) {
   try {
   
-    const supabase = createClient();
+ const supabase = createClient();
  const productPayload = await req.json();
 
 		console.log( productPayload );

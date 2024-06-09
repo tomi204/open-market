@@ -32,7 +32,7 @@ import { uuid } from "uuidv4";
 
 import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
 
-export default function createAsset() {
+export default function CreateAsset() {
 	const [productName, setProductName] = useState("");
 	const [productBrand, setProductBrand] = useState("");
 	const [productDescription, setProductDescription] = useState("");
@@ -122,12 +122,13 @@ export default function createAsset() {
 		console.log({ trxn });
 
 		const productData = {
-			productName,
-			productDescription,
-			productCategory,
-			productPrice,
-			shippingOption,
-			stockQuantity,
+			product_name: productNamee,
+			product_description: productDescription,
+			product_category: productCategory,
+			product_price: productPrice,
+			image_folder: selectedFiles,
+			stock_quantity: stockQuantity,
+			shipping_option: product.shippingOption,
 			owner_address,
 			selectedFiles,
 			productBrand,
