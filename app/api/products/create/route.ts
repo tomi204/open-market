@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
-import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
 import { uuid } from "uuidv4";
 
 export async function POST(req: any, res:any) {
@@ -28,7 +27,7 @@ export async function POST(req: any, res:any) {
 			}
 		const images = productPayload.selectedFiles;
 		
-		
+
   await Promise.all(
 		images.map(async (image:any) => {
 			const filePath = `public/products/${product.id}/${image.originalname}`; // Adjust the path as needed

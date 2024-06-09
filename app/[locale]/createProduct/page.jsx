@@ -29,6 +29,7 @@ import { CreateNFT } from "@/components/blockchainFunctions/writeTx";
 import { useActiveAccount } from "thirdweb/react";
 import { WalletButton } from "@/components/wallet/index";
 import { uuid } from 'uuidv4';
+import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
 
 
 export default function createAsset() {
@@ -48,6 +49,8 @@ export default function createAsset() {
 	const supabase = createClient();
 	const owner_address = account?.address;
 	console.log({ owner_address });
+
+
 	
 	const handleFileChange = (event) => {
 		setSelectedFiles(Array.from(event.target.files));
@@ -56,6 +59,8 @@ export default function createAsset() {
 		);
 		setPreviewImages(previewImages);
 	};
+
+
 
 	useEffect(() => {
 		// Cleanup object URLs when component unmounts or when selected files change
@@ -70,57 +75,60 @@ export default function createAsset() {
 
 	
 
-const handleSubmit = async (productDetails, selectedFiles) => {
-	// Generate a UUID for the new product
-	const productId = uuidv4();
+// const handleSubmit = async (productDetails, selectedFiles) => {
+// 	// Generate a UUID for the new product
+// 	const productId = uuidv4();
 
-	// Insert the new product into the products table
-	const { data: insertedProduct, error: insertError } = await supabase
-		.from("products")
-		.insert([{ id: productId, ...productDetails }]);
+// 	// Insert the new product into the products table
+// 	const { data: insertedProduct, error: insertError } = await supabase
+// 		.from("products")
+// 		.insert([{ id: productId, ...productDetails }]);
 
-	if (insertError) {
-		console.error("Error creating product:", insertError);
-		return;
-	}
+// 	if (insertError) {
+// 		console.error("Error creating product:", insertError);
+// 		return;
+// 	}
 
-	// Proceed to upload images and link them to the newly created product
-	const filePathPrefix = "public/";
-	for (let file of selectedFiles) {
-		const filePath = `${filePathPrefix}${file.name}`;
-		const { error: uploadError } = await supabase.storage
-			.from("image_products")
-			.upload(filePath, file);
+// 	// Proceed to upload images and link them to the newly created product
+// 	const filePathPrefix = "public/";
+// 	for (let file of selectedFiles) {
+// 		const filePath = `${filePathPrefix}${file.name}`;
+// 		const { error: uploadError } = await supabase.storage
+// 			.from("image_products")
+// 			.upload(filePath, file);
 
-		if (uploadError) {
-			console.error(`Error uploading ${file.name}:`, uploadError);
-			continue; // Skip to the next file if there's an error
-		}
+// 		if (uploadError) {
+// 			console.error(`Error uploading ${file.name}:`, uploadError);
+// 			continue; // Skip to the next file if there's an error
+// 		}
 
-		// Insert or update the image record in the images table, linking it to the product
-		const imagePath = filePath; // Assuming the path is sufficient for your use case
-		const { error: linkError } = await supabase
-			.from("images")
-			.insert(
-				[{ id: uuidv4(), image_path: imagePath, product_id: productId }],
-				{ returning: "minimal" }
-			);
+// 		// Insert or update the image record in the images table, linking it to the product
+// 		const imagePath = filePath; // Assuming the path is sufficient for your use case
+// 		const { error: linkError } = await supabase
+// 			.from("images")
+// 			.insert(
+// 				[{ id: uuidv4(), image_path: imagePath, product_id: productId }],
+// 				{ returning: "minimal" }
+// 			);
 
-		if (linkError) {
-			console.error(
-				`Error linking image ${file.name} to product ${productId}:`,
-				linkError
-			);
-		} else {
-			console.log(`${file.name} uploaded and linked to product ${productId}`);
-		}
-	}
-};
+// 		if (linkError) {
+// 			console.error(
+// 				`Error linking image ${file.name} to product ${productId}:`,
+// 				linkError
+// 			);
+// 		} else {
+// 			console.log(`${file.name} uploaded and linked to product ${productId}`);
+// 		}
+// 	}
+// };
 
 
 	const handleSub = async (e) => {
 		e.preventDefault();
 
+		let trxn = listenToCrowCreatedEvent();
+		
+		console.log({ trxn });
 
 		const productData = {
 			productName,
@@ -131,6 +139,7 @@ const handleSubmit = async (productDetails, selectedFiles) => {
 			stockQuantity,
 			owner_address,
 			selectedFiles,
+			contract_address: "trxn.contract_address",
 		};
 
 		console.log({ productData });
