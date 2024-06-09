@@ -30,7 +30,7 @@ export async function listenToCrowCreatedEvent() {
 }
 
 export async function listenToNftMintedEvent() {
-  const provider = new ethers.providers.JsonRpcProvider(providerUrl);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const contract = new ethers.Contract(
     CreatorContractAddress,
