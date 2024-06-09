@@ -4,22 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-	DropdownMenuTrigger,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuItem,
-	DropdownMenuContent,
-	DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenu,
 } from "@/components/ui/dropdown-menu";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
-	SelectValue,
-	SelectTrigger,
-	SelectItem,
-	SelectContent,
-	Select,
+  SelectValue,
+  SelectTrigger,
+  SelectItem,
+  SelectContent,
+  Select,
 } from "@/components/ui/select";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -29,6 +29,7 @@ import { CreateNFT } from "@/components/blockchainFunctions/writeTx";
 import { useActiveAccount } from "thirdweb/react";
 import { WalletButton } from "@/components/wallet/index";
 import { uuid } from "uuidv4";
+
 import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
 
 export default function createAsset() {
@@ -223,6 +224,7 @@ export default function createAsset() {
 			<div className="flex flex-col">
 				<NavBarFinal />
 				{/* <div className="w-full flex-1">
+
 					<form>
 						<div className="relative">
 								<SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
@@ -234,7 +236,7 @@ export default function createAsset() {
 							</div>
 					</form>
 				</div> */}
-				{/* <DropdownMenu>
+        {/* <DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
 								className="rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800"
@@ -263,15 +265,16 @@ export default function createAsset() {
 							<DropdownMenuItem>Logout</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu> */}
-				<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-					<form onSubmit={handleSub}>
-						<div className="flex items-center">
-							<h1 className="font-semibold text-lg md:text-3xl">
-								Create Product
-							</h1>
-							{/* <Button className="ml-auto" size="sm">
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+          <form onSubmit={handleSub}>
+            <div className="flex items-center">
+              <h1 className="font-semibold text-lg md:text-3xl">
+                Create Product
+              </h1>
+              {/* <Button className="ml-auto" size="sm">
 								List on Marketplace
 							</Button> */}
+
 						</div>
 						<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 							<Card>
@@ -351,12 +354,14 @@ export default function createAsset() {
 											))}
 										</div>
 										{/* <Button
+
 											size="sm"
 											variant="outline"
 											className="mt-5"
 											onClick={handleUpload}>
 											Upload Selected Images
 										</Button> */}
+
 									</div>
 								</CardContent>
 							</Card>
@@ -388,6 +393,7 @@ export default function createAsset() {
 										/>
 									</div>
 									{/* 
+
 									<div className="grid gap-2">
 										<Label htmlFor="token-quantity">Quantity</Label>
 										<Input
@@ -398,215 +404,223 @@ export default function createAsset() {
 											onChange={(e) => setTokenQuantity(e.target.value)}
 										/>
 									</div> */}
-								</CardContent>
-								<CardHeader>
-									<CardTitle>Additional Details</CardTitle>
-								</CardHeader>
-								<CardContent className="grid gap-4">
-									<div className="grid gap-2">
-										<Label htmlFor="stock-quantity">Stock Quantity</Label>
-										<Input
-											id="stock-quantity"
-											placeholder="Enter stock quantity"
-											type="number"
-											value={stockQuantity}
-											onChange={(e) => setStockQuantity(e.target.value)}
-										/>
-									</div>
-									<div className="grid gap-2">
-										<Label htmlFor="shipping-options">Shipping Options</Label>
-										<Select onValueChange={setShippingOption}>
-											<SelectTrigger>
-												<SelectValue placeholder="Select shipping option" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="standard">Standard</SelectItem>
-												<SelectItem value="express">Express</SelectItem>
-												<SelectItem value="free">Free Shipping</SelectItem>
-											</SelectContent>
-										</Select>
-									</div>
-									<div className="grid gap-2">
-										<div className="flex items-center space-x-2">
-											<Checkbox id="return-policy" />
-											<Label htmlFor="return-policy">
-												Return Policy By Aproval p2p
-											</Label>
-											{/* <Textarea
+                </CardContent>
+                <CardHeader>
+                  <CardTitle>Additional Details</CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="stock-quantity">Stock Quantity</Label>
+                    <Input
+                      id="stock-quantity"
+                      placeholder="Enter stock quantity"
+                      type="number"
+                      value={stockQuantity}
+                      onChange={(e) => setStockQuantity(e.target.value)}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="shipping-options">Shipping Options</Label>
+                    <Select onValueChange={setShippingOption}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select shipping option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="standard">Standard</SelectItem>
+                        <SelectItem value="express">Express</SelectItem>
+                        <SelectItem value="free">Free Shipping</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="return-policy" />
+                      <Label htmlFor="return-policy">
+                        Return Policy By Aproval p2p
+                      </Label>
+                      {/* <Textarea
 										id="return-policy"
 										placeholder="Enter return policy details"
 										rows={3}
 									/> */}
-										</div>
-									</div>
-								</CardContent>
-							</Card>
-						</div>
-						<div className="flex mt-10   justify-end p-6 gap-2">
-							<Button size="lg" variant="outline">
-								Cancel
-							</Button>
-							<Button size="lg">Save Product</Button>
-						</div>
-					</form>
-				</main>
-			</div>
-		</div>
-	);
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="flex mt-10   justify-end p-6 gap-2">
+              <Button size="lg" variant="outline">
+                Cancel
+              </Button>
+              <Button size="lg">Save Product</Button>
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+  );
 }
 
 function BellIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-			<path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+    </svg>
+  );
 }
 
 function HomeIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-			<polyline points="9 22 9 12 15 12 15 22" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </svg>
+  );
 }
 
 function LineChartIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<path d="M3 3v18h18" />
-			<path d="m19 9-5 5-4-4-3 3" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 3v18h18" />
+      <path d="m19 9-5 5-4-4-3 3" />
+    </svg>
+  );
 }
 
 function PackageIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<path d="m7.5 4.27 9 5.15" />
-			<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-			<path d="m3.3 7 8.7 5 8.7-5" />
-			<path d="M12 22V12" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m7.5 4.27 9 5.15" />
+      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+      <path d="m3.3 7 8.7 5 8.7-5" />
+      <path d="M12 22V12" />
+    </svg>
+  );
 }
 
 function PlusIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<path d="M5 12h14" />
-			<path d="M12 5v14" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+    </svg>
+  );
 }
 
 function SearchIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<circle cx="11" cy="11" r="8" />
-			<path d="m21 21-4.3-4.3" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
 }
 
 function UsersIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-			<circle cx="9" cy="7" r="4" />
-			<path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-			<path d="M16 3.13a4 4 0 0 1 0 7.75" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
 }
 
 function WalletIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round">
-			<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
-			<path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
-		</svg>
-	);
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+      <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+    </svg>
+  );
 }
