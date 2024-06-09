@@ -2,22 +2,25 @@ import { ethers } from "ethers";
 import { CreatorContractAddress } from "@/contracts/Addresses";
 import { CreatorContractABI } from "@/contracts/ABI/CreatorContract";
 
-const abi = [
-  "event crowCreated(address indexed newCrow, string indexed userId)",
+const address = [
+	"event crowCreated(address indexed newCrow, string indexed _owner)",
 ];
 
 const providerUrl = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID";
 
+
+//llama la funcion , escucha y devuelve el evento, comparas el owner con la wallet del user y te guardas el newcrow 
+
 export async function listenToCrowCreatedEvent() {
   const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
-  const contract = new ethers.Contract(CreatorContractAddress, abi, provider);
+  const contract = new ethers.Contract(CreatorContractAddress, address, provider);
 
-  contract.on("crowCreated", (newCrow: string, userId: string, event: any) => {
-    console.log("Nuevo crow creado!");
-    console.log("Dirección del nuevo crow:", newCrow);
-    console.log("ID del usuario:", userId);
-    console.log("Detalles del evento:", event);
+  contract.on("crowCreated", (newCrow: string, _owner: string, event: any) => {
+      console.log("Nuevo crow creado!");
+      console.log("Dirección del nuevo crow:", newCrow);
+      console.log("ID del usuario:", _owner);
+      console.log("Detalles del evento:", event);
   });
 
   console.log(
@@ -28,7 +31,11 @@ export async function listenToCrowCreatedEvent() {
 export async function listenToNftMintedEvent() {
   const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
-  const contract = new ethers.Contract(CreatorContractAddress, abi, provider);
+  const contract = new ethers.Contract(
+		CreatorContractAddress,
+		address,
+		provider
+	);
 
   contract.on("NftMinted", (requester: string, quantity: any, event: any) => {
     console.log("Nuevo NFT minteado!");

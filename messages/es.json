@@ -3,11 +3,10 @@
       "title": "Bienvenido "
     },
     "Navbar": {
-      "dashboard": "Ofertas",
-      "tasks": "Tareas",
-      "sleep": "Reposo",
-      "settings": "Configuración",
-      "sports": "Deportes"
+
+      "marketplace": "Marketplace",
+      "create": "Crear"
+
     },
     "ModeToggle": {
       "system": "Sistema",

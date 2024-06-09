@@ -1,13 +1,11 @@
 {
     "Index": {
-      "title": "Hello world!"
+      "title": ""
     },
     "Navbar": {
-      "dashboard": "Dashboard",
-      "tasks": "Tasks",
-      "sleep": "Sleep",
-      "settings": "Settings",
-      "sports": "Sports"
+
+      "marketplace": "Marketplace",
+      "create": "Create"
     },
     "ModeToggle": {
       "system": "System",

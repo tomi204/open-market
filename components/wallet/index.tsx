@@ -104,6 +104,7 @@ export const WalletButton = () => {
         chain={chain}
         connectModal={{ size: "wide" }}
       />
+
     </section>
   );
 };
