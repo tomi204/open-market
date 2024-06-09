@@ -215,7 +215,7 @@ const filteredNFTs: any = useMemo(() => {
 						/>
 						<div className="p-4">
 							<h3 className="text-lg font-semibold mb-2">{nft.product_name}</h3>
-							<h1 className="text-lg font-semibold mb-2">{nft.product_name}</h1>
+							<h1 className="text-lg font-semibold mb-2">{nft.productBrand}</h1>
 							{/* <p className="text-gray-500 dark:text-gray-400 mb-4">
 								by {nft.artist}
 							</p> */}
