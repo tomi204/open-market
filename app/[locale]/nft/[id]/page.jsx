@@ -11,14 +11,14 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import Image from "next/image";
-import { MintNative } from "@/components/blockchainFunctions/writeTx";
+import { MintNative } from "../../../../components/blockchainFunctions/writeTx";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import axios from "axios";
 import { usePathname, useSearchParams } from "next/navigation";
 import { NavBarFinal } from "@/components/NavBar";
-
+import { useActiveAccount } from "thirdweb/react";
 export default function NFTDetails() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -27,6 +27,7 @@ export default function NFTDetails() {
   const searchParams = useSearchParams();
   console.log(pathname, "path");
   const { data: nfts } = useSWR("/api/products/get", fetcher);
+  const account = useActiveAccount();
 
   function extractIdFromUrl(url) {
     const regex = /nft\/([a-zA-Z0-9-]+)/;
@@ -43,7 +44,7 @@ export default function NFTDetails() {
 
   const mintNFT = async () => {
     setLoading(true);
-    const { tx } = await MintNative(1, "0x123", "0x123");
+    const { tx } = await MintNative(1, account?.address, nft.contract_address);
     setLoading(false);
   };
   console.log(nft, "nft");
