@@ -56,6 +56,15 @@ export default function CreateAsset() {
     setPreviewImages(previewImages);
   };
 
+    
+  const processSelectedFiles = (selectedFiles) => {
+		let blobFiles = Array.from(selectedFiles).map((file) => {
+			return new Blob([file], { type: file.type });
+		});
+	};
+
+
+
   useEffect(() => {
     // Cleanup object URLs when component unmounts or when selected files change
     return () => {
@@ -66,16 +75,20 @@ export default function CreateAsset() {
   const handleSub = async (e) => {
     e.preventDefault();
 
+    let processData = processSelectedFiles(selectedFiles);
+    
     const productData = {
-      product_description: productDescription,
-      product_category: productCategory,
-      product_price: productPrice,
-      image_folder: selectedFiles,
-      stock_quantity: stockQuantity,
-      shipping_option: shippingOption,
-      owner_address: owner_address,
-      contract_address: contractAddress,
-    };
+			product_name: productName,
+			product_description: productDescription,
+			product_category: productCategory,
+			product_price: productPrice,
+			image_folder: processData,
+			stock_quantity: stockQuantity,
+			shipping_option: shippingOption,
+			owner_address,
+			productBrand,
+			contract_address: contractAddress,
+		};
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -133,7 +146,7 @@ export default function CreateAsset() {
       console.error(error);
     }
 
-    // resetFormFields();
+    resetFormFields();
   };
 
   const resetFormFields = () => {
