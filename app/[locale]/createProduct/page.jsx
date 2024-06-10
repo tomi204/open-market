@@ -67,15 +67,13 @@ export default function CreateAsset() {
     e.preventDefault();
 
     const productData = {
-      productName,
-      productDescription,
-      productCategory,
-      productPrice,
-      shippingOption,
-      stockQuantity,
-      owner_address,
-      selectedFiles,
-      productBrand,
+      product_description: productDescription,
+      product_category: productCategory,
+      product_price: productPrice,
+      image_folder: selectedFiles,
+      stock_quantity: stockQuantity,
+      shipping_option: shippingOption,
+      owner_address: owner_address,
       contract_address: contractAddress,
     };
 
@@ -158,7 +156,6 @@ export default function CreateAsset() {
       <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-[60px] items-center border-b px-6">
-
             <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
               <BellIcon className="h-4 w-4" />
               <span className="sr-only">Toggle notifications</span>
