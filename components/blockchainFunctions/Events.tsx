@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { CreatorContractAddress } from "@/contracts/Addresses";
 import { CreatorContractABI } from "@/contracts/ABI/CreatorContract";
+import { useState } from "react";
 
 const address = [
   "event crowCreated(address indexed newCrow, string indexed _owner)",
@@ -8,7 +9,7 @@ const address = [
 
 //llama la funcion , escucha y devuelve el evento, comparas el owner con la wallet del user y te guardas el newcrow
 
-export async function listenToCrowCreatedEvent() {
+export async function ListenToCrowCreatedEvent() {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const contract = new ethers.Contract(
@@ -16,9 +17,13 @@ export async function listenToCrowCreatedEvent() {
     address,
     provider
   );
-
+  const [contractAddressEvent, setContractAddressEvent] = useState<string>("");
+  const [owner, setOwner] = useState<string>("");
   contract.on("crowCreated", (newCrow: string, _owner: string, event: any) => {
     console.log("Nuevo crow creado!");
+    setOwner(_owner);
+
+    setContractAddressEvent(newCrow);
     console.log("Dirección del nuevo crow:", newCrow);
     console.log("ID del usuario:", _owner);
     console.log("Detalles del evento:", event);
@@ -27,6 +32,7 @@ export async function listenToCrowCreatedEvent() {
   console.log(
     `Escuchando eventos 'crowCreated' en el contrato en la dirección: ${CreatorContractAddress}`
   );
+  return { owner, contractAddressEvent };
 }
 
 export async function listenToNftMintedEvent() {

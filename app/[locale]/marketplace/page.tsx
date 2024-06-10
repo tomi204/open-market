@@ -1,21 +1,24 @@
-
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/0ZhZbJMdcei
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-"use client"
+"use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import Link from "next/link"
-import { NavBarFinal } from "@/components/NavBar"
-import Footer from "@/components/footer"
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import Link from "next/link";
+import { NavBarFinal } from "@/components/NavBar";
+import Footer from "@/components/footer";
 //swr.vercel.app/es-ES
 
 // interface UserData {
@@ -31,7 +34,6 @@ import Footer from "@/components/footer"
 // 	fetcher
 // );
 
-
 import useSWR, { Fetcher } from "swr";
 import axios from "axios";
 import { AnyAaaaRecord } from "dns";
@@ -39,17 +41,17 @@ import { AnyAaaaRecord } from "dns";
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface NFT {
-	contract_address?: string | null;
-	created_at: string;
-	id: string;
-	image_folder: string;
-	owner_address?: string | null;
-	product_category: string;
-	product_description: string;
-	product_name: string;
-	product_price: number;
-	shipping_option: string;
-	stock_quantity: number;
+  contract_address?: string | null;
+  created_at: string;
+  id: string;
+  image_folder: string;
+  owner_address?: string | null;
+  product_category: string;
+  product_description: string;
+  product_name: string;
+  product_price: number;
+  shipping_option: string;
+  stock_quantity: number;
 }
 
 interface Filters {
@@ -59,55 +61,47 @@ interface Filters {
 }
 
 export default function Component() {
-  const [searchTerm, setSearchTerm] = useState<string>("")
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [filters, setFilters] = useState<Filters>({
     category: [],
     priceRange: [0, 1000],
     sortBy: "trending",
-  } )
+  });
   const { data: nfts } = useSWR<any>("/api/products/get", fetcher);
   // const [nfts, setNfts] = useState<NFT[]>(  );
-  
+
   // useEffect(() => {
-	// 	setNfts(data?.products);
-	// }, [nfts]);
+  // 	setNfts(data?.products);
+  // }, [nfts]);
 
-
-
-console.log( { nfts } );
-const filteredNFTs: any = useMemo(() => {
-		
-	if ( nfts !== undefined ) {
-	return nfts?.products
-		?.filter( ( nft:any ) => {
-		  const searchRegex = new RegExp( searchTerm, "i" );
-		  return (
-			searchRegex.test( nft.product_name ) ||
-			filters.category.includes( nft.product_category )
-		  );
-		} )
-		.filter(
-		  ( nft:any ) =>
-			nft.product_price >= filters.priceRange[0] &&
-			nft.product_price <= filters.priceRange[1]
-		)
-		.sort( ( a: any, b: any ) => {
-		  if ( filters.sortBy === "trending" ) {
-			return b.id - a.id;
-		  } else if ( filters.sortBy === "low" ) {
-			return a.product_price - b.product_price;
-		  } else {
-			return b.product_price - a.product_price;
-		  }
-		} );
-	}
-	return undefined;
-	}, [searchTerm, filters]);
-
-
-
-
-
+  console.log({ nfts });
+  const filteredNFTs: any = useMemo(() => {
+    if (nfts !== undefined) {
+      return nfts?.products
+        ?.filter((nft: any) => {
+          const searchRegex = new RegExp(searchTerm, "i");
+          return (
+            searchRegex.test(nft.product_name) ||
+            filters.category.includes(nft.product_category)
+          );
+        })
+        .filter(
+          (nft: any) =>
+            nft.product_price >= filters.priceRange[0] &&
+            nft.product_price <= filters.priceRange[1]
+        )
+        .sort((a: any, b: any) => {
+          if (filters.sortBy === "trending") {
+            return b.id - a.id;
+          } else if (filters.sortBy === "low") {
+            return a.product_price - b.product_price;
+          } else {
+            return b.product_price - a.product_price;
+          }
+        });
+    }
+    return undefined;
+  }, [searchTerm, filters]);
 
   return (
 		<div className="container mx-auto px-4 md:px-6 pb-24">
@@ -219,18 +213,18 @@ const filteredNFTs: any = useMemo(() => {
 							{/* <p className="text-gray-500 dark:text-gray-400 mb-4">
 								by {nft.artist}
 							</p> */}
-							<div className="flex items-center justify-between">
-								<div className="text-primary font-semibold">
-									{nft.product_price}
-								</div>
-								<Button size="sm">Buy</Button>
-							</div>
-						</div>
-					</Link>
-				))}
-			</div>
-		</div>
-	);
+              <div className="flex items-center justify-between">
+                <div className="text-primary font-semibold">
+                  {nft.product_price}
+                </div>
+                <Button size="sm">Buy</Button>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function FilterIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -249,6 +243,5 @@ function FilterIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
     </svg>
-  )
-
+  );
 }
