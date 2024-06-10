@@ -5,15 +5,36 @@ import { uuid } from "uuidv4";
 
 export async function POST(req: any, res: any) {
   try {
-    const supabase = createClient();
-    const productPayload = await req.json();
 
-    console.log(productPayload);
+  
+ const supabase = createClient();
+ const productPayload = await req.json();
+ 
+		
+		
+ const product = {
+		...productPayload,
+		id: uuid(), // Generate a unique ID for the new product
+ };
+		
+   const { data, error } = await supabase.from("products").insert([product]);
+		
+		
+     if (error) {
+				return NextResponse.json({
+					message: "Error inserting product",
+					error: error.message,
+				});
+			}
+		const images = productPayload.selectedFiles;
+		
 
-    const product = {
-      ...productPayload,
-      id: uuid(), // Generate a unique ID for the new product
-    };
+  await Promise.all(
+		images.map(async (image:any) => {
+			const filePath = `public/products/${product.id}/${image.name}`; // Adjust the path as needed
+			const { error: uploadError } = await supabase.storage
+				.from("image_products") // Replace with your actual bucket name
+				.upload(filePath, image.buffer); // Assuming images are sent as Buffer objects
 
     const { data, error } = await supabase.from("products").insert([product]);
 
