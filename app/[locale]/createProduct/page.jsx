@@ -27,10 +27,8 @@ import { createClient } from "@/utils/supabase/client";
 import { NavBarFinal } from "@/components/NavBar";
 import { CreateNFT } from "@/components/blockchainFunctions/writeTx";
 import { useActiveAccount } from "thirdweb/react";
-import { WalletButton } from "@/components/wallet/index";
-import { uuid } from "uuidv4";
-
-import { listenToCrowCreatedEvent } from "@/components/blockchainFunctions/Events";
+import { CreatorContractAddress } from "@/contracts/Addresses";
+import { ethers } from "ethers";
 
 export default function CreateAsset() {
   const [productName, setProductName] = useState("");
@@ -45,11 +43,11 @@ export default function CreateAsset() {
   const [returnPolicy, setReturnPolicy] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+  const [contractAddress, setContractAddress] = useState("");
   const account = useActiveAccount();
   const supabase = createClient();
   const owner_address = account?.address;
-  console.log({ owner_address });
-
+  const ABI = ["event crowCreated(address indexed newCrow, string _owner)"];
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
     const previewImages = Array.from(event.target.files).map((file) =>
@@ -65,61 +63,8 @@ export default function CreateAsset() {
     };
   }, [selectedFiles]);
 
-  console.log({ selectedFiles });
-
-  // const handleSubmit = async (productDetails, selectedFiles) => {
-  // 	// Generate a UUID for the new product
-  // 	const productId = uuidv4();
-
-  // 	// Insert the new product into the products table
-  // 	const { data: insertedProduct, error: insertError } = await supabase
-  // 		.from("products")
-  // 		.insert([{ id: productId, ...productDetails }]);
-
-  // 	if (insertError) {
-  // 		console.error("Error creating product:", insertError);
-  // 		return;
-  // 	}
-
-  // 	// Proceed to upload images and link them to the newly created product
-  // 	const filePathPrefix = "public/";
-  // 	for (let file of selectedFiles) {
-  // 		const filePath = `${filePathPrefix}${file.name}`;
-  // 		const { error: uploadError } = await supabase.storage
-  // 			.from("image_products")
-  // 			.upload(filePath, file);
-
-  // 		if (uploadError) {
-  // 			console.error(`Error uploading ${file.name}:`, uploadError);
-  // 			continue; // Skip to the next file if there's an error
-  // 		}
-
-  // 		// Insert or update the image record in the images table, linking it to the product
-  // 		const imagePath = filePath; // Assuming the path is sufficient for your use case
-  // 		const { error: linkError } = await supabase
-  // 			.from("images")
-  // 			.insert(
-  // 				[{ id: uuidv4(), image_path: imagePath, product_id: productId }],
-  // 				{ returning: "minimal" }
-  // 			);
-
-  // 		if (linkError) {
-  // 			console.error(
-  // 				`Error linking image ${file.name} to product ${productId}:`,
-  // 				linkError
-  // 			);
-  // 		} else {
-  // 			console.log(`${file.name} uploaded and linked to product ${productId}`);
-  // 		}
-  // 	}
-  // };
-
   const handleSub = async (e) => {
     e.preventDefault();
-
-    let trxn = listenToCrowCreatedEvent();
-
-    console.log({ trxn });
 
     const productData = {
       productName,
@@ -131,24 +76,61 @@ export default function CreateAsset() {
       owner_address,
       selectedFiles,
       productBrand,
-      contract_address: "trxn.contract_address",
+      contract_address: contractAddress,
     };
 
-    console.log({ productData });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     const { tx } = await CreateNFT({
       price: Number(productPrice),
       totalSupply: Number(stockQuantity),
       userAddress: owner_address,
     });
+    console.log(tx, "tx");
+
+    // Esperar a que la transacción sea minada y obtener el recibo
+    const receipt = await provider.waitForTransaction(tx.hash);
+    console.log(receipt, "receipt");
+
+    // ABI del contrato que incluye el evento crowCreated
+    const ABI = [
+      "event crowCreated(address indexed crow, address _owner)",
+      // Añadir aquí otros eventos del contrato si es necesario
+    ];
+
+    const iface = new ethers.utils.Interface(ABI);
+
+    // Decodificar los logs del recibo
+    const decodedEvents = receipt.logs
+      .map((log) => {
+        try {
+          return iface.parseLog(log);
+        } catch (e) {
+          return null; // Ignorar logs que no coinciden con el ABI
+        }
+      })
+      .filter((event) => event !== null);
+
+    // Filtrar y manejar el evento crowCreated
+    decodedEvents.forEach((event) => {
+      if (event && event.name === "crowCreated") {
+        const { crow, _owner } = event.args;
+        console.log(`Nuevo crow creado: ${crow}`);
+        console.log(`Propietario: ${_owner}`);
+        setContractAddress(crow);
+      }
+    });
 
     try {
       const response = await fetch("/api/products/create", {
         method: "POST",
-        body: productData,
+        body: JSON.stringify(productData),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       const data = await response.json();
-      console.log(data);
+      console.log(data, "data");
     } catch (error) {
       console.error(error);
     }
